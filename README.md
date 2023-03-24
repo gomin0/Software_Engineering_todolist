@@ -1,6 +1,6 @@
 # Software_Engineering_todolist
 
-## 소프트웨어공학 - 난쏘공팀
+## 소프트웨어공학 - 난쏘공팀 ⚽
 
 👤 팀원 정보
 
