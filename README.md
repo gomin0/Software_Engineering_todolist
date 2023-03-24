@@ -16,5 +16,3 @@
          - 201911453 김진호
  
 <img width="80%" src="https://user-images.githubusercontent.com/80516484/227434187-24714c4e-05ef-4fcd-a044-e2e0e207acfd.png"/>
-
- 
