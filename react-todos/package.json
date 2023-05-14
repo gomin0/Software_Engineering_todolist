@@ -1,0 +1,13 @@
+{
+    "name": "react-todos",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
+        "server": "node ./server/server.js",
+        "client": "cd cliend && npm start"
+    },
+    "dependencies": {
+        "if-env": "^1.0.4"
+    }
+}

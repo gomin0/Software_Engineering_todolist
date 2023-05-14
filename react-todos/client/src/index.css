@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(233, 241, 249);
+  display: flex;
+  justify-content: center;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.app {
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+  border-radius: 10px;
+  padding: 10px;
+  width: 600px;
+  margin-top: 50px;
+}
+
+.button-container,
+.info-container {
+  display: flex;
+  align-items: center;
+}
+
+.button-container button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 10px;
+  border-radius: 12px;
+  background-color: transparent;
+}
+
+.create {
+  border: 1.5px solid rgb(108, 115, 148);
+  color: rgb(108, 115, 148);
+  text-transform: uppercase;
+}
+
+.create:hover {
+  background-color: rgb(131, 138, 172);
+}
+
+.create:active {
+  background-color: rgb(108, 115, 148);
+  color: rgb(255, 255, 255);
+}
+
+.signout {
+  border: 1.5px solid rgb(255, 175, 163);
+  background-color: rgb(255, 175, 163) !important;
+  color: rgb(255, 255, 255);
+}
+
+.signout:hover {
+  background-color: rgb(175, 94, 94);
+  border: 1.5px solid rgb(175, 94, 94);
+}
+
+.signout:active {
+  border: 1.5px solid rgb(175, 81, 81);
+  background-color: rgb(175, 81, 81);
+  color: rgb(255, 255, 255);
+}
+
+.edit {
+  border: 1.5px solid rgb(141, 181, 145);
+  color: rgb(141, 181, 145);
+  background-color: transparent;
+  text-transform: uppercase;
+}
+
+.edit:hover {
+  background-color: rgb(182, 223, 186);
+}
+
+.edit:active {
+  border: 1.5px solid rgb(141, 181, 145);
+  color: rgb(255, 255, 255);
+  background-color: rgb(141, 181, 145);
+}
+
+.delete {
+  border: 1.5px solid rgb(255, 175, 163);
+  color: rgb(255, 175, 163);
+  text-transform: uppercase;
+}
+
+.delete:hover {
+  background-color: rgb(255, 201, 193);
+}
+
+.delete:active {
+  border: 1.5px solid rgb(255, 175, 163);
+  background-color: rgb(255, 175, 163);
+  color: rgb(255, 255, 255);
+}
+
+/* List Header */
+.list-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: rgba(0, 0, 0, 0.05) 1px solid;
+}
+
+.list-item {
+  width: 100%;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0 0 0 1px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tick {
+  padding: 10px;
+}
+
+.tick path {
+  fill: none;
+  stroke: #000;
+  stroke-miterlimit: 10;
+  stroke-width: 32px;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  width: 500px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+}
+
+.modal .form-title-container {
+  display: flex;
+  justify-content: space-between;
+}
