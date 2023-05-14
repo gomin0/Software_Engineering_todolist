@@ -6,7 +6,7 @@
 
 `npm run start` 실행 후, **오류가 나는 경우:**  
 
-1. `DIR-TO-PROJ/frontend/` 디렉토리로 이동
+1. `DIR-TO-PROJ/checkbox-to-do-app/frontend/` 디렉토리로 이동
     - `cd DIR-TO-PROJ/checkbox-to-do-app/frontend`
     - 깃헙 프로젝트가 저장된 로컬 디렉토리로 이동해주세요
 2. 최신 `npm` globally 설치
