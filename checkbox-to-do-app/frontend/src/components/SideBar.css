@@ -3,13 +3,28 @@
   flex-direction: column;
   align-items: start;
   justify-content: space-between;
-}
-
-.search-bar {
+  width: 20vw;
+  padding: 40px;
+  background-color: rgb(240, 240, 240);
 }
 
 .list-container {
+  display: flex;
+  flex-direction: column;
+  /* background-color: blue; */
+  width: 100%;
+  height: 100%;
 }
 
-.list {
+.lists {
+  align-items: center;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+}
+
+.list-icon {
+  color: rgb(100, 100, 100);
+  width: 24px;
+  height: 24px;
 }
