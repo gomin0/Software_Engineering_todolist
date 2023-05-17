@@ -16,3 +16,9 @@
     - 디렉토리 삭제 옵션 (f flag로 재확인 절차 무시)
 4. 현재 디렉토리에 다시 `npm` 설치
     - `npm install`
+
+## Required Additional Libraries
+- [react-router-dom](#https://reactrouter.com/en/main) (Router)
+    - `npm i react-router-dom`
+- ~~[axios](#https://github.com/axios/axios)~~
+    - ~~`npm i axios`~~
