@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
+import Main from "../components/Main";
 import List from "../components/List";
 import ToDo from "../components/ToDo";
 
-const Home = () => {
+const Home = ({ user }) => {
+  const lists = user.lists;
+
   return (
-    <div>
-      <Header></Header>
-    </div>
+    <>
+      <Header user={user}></Header>
+      <Main lists={lists}></Main>
+    </>
   );
 };
 
