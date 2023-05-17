@@ -7,7 +7,6 @@ class User {
     -userID: String_TBD
     -userName: String
     -userEmail: String
-
     +String getUserID()
     +String getUserName()
     +String getUserEmail()
@@ -18,12 +17,10 @@ class List {
     -listName: String
     -createdDate: Date
     -userID: String
-
     +String getListID()
     +String getListListName()
     +String getUserID()
     +Date getCreatedDate()
-
     +String setListName()
 }
 
@@ -35,14 +32,12 @@ class ToDo {
     -DueDate: Date
     -isCompleted: bool
     -listID: String
-
     +String getToDoID()
     +String getToDoName()
     +String getDescription()
     +int getPriority()
     +Date getDueDate()
     +String getListID()
-
     +String setToDoName()
     +String setDescription()
     +int setPriority()
