@@ -12,6 +12,10 @@
   cursor: pointer;
 }
 
+.ButtonSelected {
+  background-color: rgb(210, 210, 210);
+}
+
 .Button:hover {
   background-color: rgb(200, 200, 200);
 }
