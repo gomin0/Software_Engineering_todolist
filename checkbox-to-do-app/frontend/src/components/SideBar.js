@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styles from "./Button.module.css";
+import React, { useState, useRef } from "react";
 import style from "./SideBar.css";
+import List from "./List";
 
-const SideBar = ({ lists }) => {
+const SideBar = ({ onClick, lists, selected }) => {
   const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
 
   // NOTE: search bar
@@ -11,17 +11,11 @@ const SideBar = ({ lists }) => {
       <div className="list-container">
         <ul className="lists">
           {curLists?.map((list) => (
-            <li>
-              <button key={list.id} className={styles.Button}>
-                <svg className="list-icon" viewBox="0 0 24 24">
-                  <path
-                    d="M12 7a5 5 0 110 10 5 5 0 010-10z"
-                    fill="currentColor"
-                  ></path>
-                </svg>
-                <span>{list.name}</span>
-              </button>
-            </li>
+            <List
+              onClick={(event) => onClick(event)}
+              list={list}
+              selected={selected}
+            />
           ))}
         </ul>
       </div>

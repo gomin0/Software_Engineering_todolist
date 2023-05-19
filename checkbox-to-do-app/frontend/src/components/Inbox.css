@@ -1,0 +1,7 @@
+.inbox {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  width: 80vw;
+}
