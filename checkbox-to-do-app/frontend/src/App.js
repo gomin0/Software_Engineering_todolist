@@ -9,15 +9,15 @@ const curUser = {
   userName: "Kim",
   lists: [
     {
-      id: 1,
+      id: 0,
       name: "1st",
     },
     {
-      id: 2,
+      id: 1,
       name: "2nd",
     },
     {
-      id: 3,
+      id: 2,
       name: "3rd",
     },
   ],
