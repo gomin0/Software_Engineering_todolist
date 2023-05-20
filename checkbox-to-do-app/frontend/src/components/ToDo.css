@@ -40,3 +40,17 @@
   text-align: left;
   padding-left: 30px;
 }
+
+.todo-edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  background-color: unset;
+}
+
+.todo-edit:hover {
+  background-color: rgb(230, 230, 230);
+}
