@@ -11,10 +11,43 @@ const curUser = {
     {
       id: 0,
       name: "1st",
+      todos: [
+        {
+          id: 0,
+          title: "react",
+          description: "no. 1",
+          isCompleted: false,
+        },
+        {
+          id: 1,
+          title: "node",
+          description: "no. 2",
+          isCompleted: true,
+        },
+        {
+          id: 2,
+          title: "mySQL",
+          isCompleted: false,
+        },
+      ],
     },
     {
       id: 1,
       name: "2nd",
+      todos: [
+        {
+          id: 0,
+          title: "two list",
+          description: "no. 3",
+          isCompleted: false,
+        },
+        {
+          id: 1,
+          title: "spring",
+          description: "no. 4",
+          isCompleted: true,
+        },
+      ],
     },
     {
       id: 2,
