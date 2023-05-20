@@ -18,7 +18,9 @@
     - `npm install`
 
 ## Required Additional Libraries
-- [react-router-dom](#https://reactrouter.com/en/main) (Router)
+- [react-router-dom](https://reactrouter.com/en/main) (Router)
     - `npm i react-router-dom`
-- ~~[axios](#https://github.com/axios/axios)~~
+- ~~[axios](https://github.com/axios/axios)~~
     - ~~`npm i axios`~~
+- fontawesome(https://fontawesome.com/docs/web/use-with/react/)
+    - `npm i --save fortawesome/react-fontawesome`
