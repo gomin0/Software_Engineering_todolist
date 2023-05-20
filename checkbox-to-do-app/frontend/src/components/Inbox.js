@@ -1,13 +1,14 @@
 import { useRef } from "react";
 import style from "./Inbox.css";
+import ToDoContainer from "./ToDoContainer";
 
 const Inbox = ({ curList }) => {
   return (
     <div className="inbox">
       <div className="list-name" style={style}>
-        {curList.name}
+        <h2>{curList.name}</h2>
       </div>
-      <button className="test"></button>
+      <ToDoContainer curList={curList}></ToDoContainer>
     </div>
   );
 };
