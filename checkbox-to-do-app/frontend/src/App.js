@@ -88,20 +88,11 @@ const getInfo = () => {
 };
 
 const App = () => {
-  //const [access_token, setAccessToken] = useState(false);
   const access_token = getInfo();
 
   useEffect(() => {
     getInfo();
   }, []);
-  //useEffect(() => {
-  //  const fetchData = async () => {
-  //    const token = await getInfo();
-  //    setAccessToken(token);
-  //  };
-  //  fetchData();
-  //  console.log(access_token);
-  //}, []);
 
   return (
     <Router>
