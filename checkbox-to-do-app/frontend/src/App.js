@@ -1,8 +1,13 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Switch from "react-switch";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
-import Callback from "./routes/Callback";
 
 const curUser = {
   profile_image: "https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif",
@@ -56,20 +61,68 @@ const curUser = {
   ],
 };
 
+const getInfo = () => {
+  var naver_id_login = new window.naver_id_login(
+    "nuZ04sTeb2LDphCqc4qv", // client ID
+    "http://localhost:3000/" // callback url
+  );
+  // 접근 토큰 값 출력
+  console.log(naver_id_login.oauthParams.access_token);
+
+  // 네이버 사용자 프로필 조회
+  //naver_id_login.get_naver_userprofile("naverSignInCallback()");
+  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+
+  function naverSignInCallback() {
+    console.log(naver_id_login.getProfileData("email"));
+    console.log(naver_id_login.getProfileData("nickname"));
+    console.log(naver_id_login.getProfileData("age"));
+  }
+  if (naver_id_login.oauthParams.access_token) {
+    console.log("success!");
+    return true;
+  } else {
+    console.log("failed💀");
+    return false;
+  }
+};
+
 const App = () => {
+  //const [access_token, setAccessToken] = useState(false);
+  const access_token = getInfo();
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+  //useEffect(() => {
+  //  const fetchData = async () => {
+  //    const token = await getInfo();
+  //    setAccessToken(token);
+  //  };
+  //  fetchData();
+  //  console.log(access_token);
+  //}, []);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home user={curUser} />}></Route>
-      </Routes>
-      <Routes>
-        <Route path="/login" element={<Login />}></Route>
-      </Routes>
-      <Routes>
-        <Route path="/callback" element={<Callback />}></Route>
+        <Route
+          exact
+          path="/login"
+          element={access_token ? <Navigate to="/" /> : <Login />}
+        />
+        <Route
+          exact
+          path="/"
+          element={
+            access_token ? <Home user={curUser} /> : <Navigate to="/login" />
+          }
+        />
       </Routes>
     </Router>
   );
 };
+//<Route exact path="/login" element={<Login />}></Route>
+//<Route exact path="/" element={<Home user={curUser} />}></Route>
 
 export default App;
