@@ -12,6 +12,7 @@ const SideBar = ({ onClick, lists, selected }) => {
         <ul className="lists">
           {curLists?.map((list) => (
             <List
+              key={list.id}
               onClick={(event) => onClick(event)}
               list={list}
               selected={selected}
