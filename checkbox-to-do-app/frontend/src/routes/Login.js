@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
 const initNaverLogin = () => {
-  var naver_id_login = new window.naver_id_login(
+  const naver_id_login = new window.naver_id_login(
     "nuZ04sTeb2LDphCqc4qv", // client ID
-    "http://localhost:3000/callback" // callback url
+    "http://localhost:3000/" // callback url
   );
   var state = naver_id_login.getUniqState();
   naver_id_login.setButton("white", 2, 40);
