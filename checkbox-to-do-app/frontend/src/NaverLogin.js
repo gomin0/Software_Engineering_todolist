@@ -30,7 +30,6 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
     const token = window.location.href.split("=")[1].split("&")[0];
     alert(token);
     localStorage.setItem("access_token", token);
-    localStorage.setItem("hi", "bug");
     setGetToken(token);
   };
 
