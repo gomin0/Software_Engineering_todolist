@@ -71,8 +71,10 @@ const App = () => {
     setUserInfo(user);
   };
 
-  //const userID = userInfo.getEmail();
-  //const username = userInfo.getName();
+  const userID = localStorage.getItem("id");
+  const username = localStorage.getItem("username");
+
+  /* !!! uncomment the below and test !!! */
   //const getUserInfo = async () => {
   //  try {
   //    const response = await fetch(
