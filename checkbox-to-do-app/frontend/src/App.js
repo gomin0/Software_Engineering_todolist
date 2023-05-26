@@ -5,9 +5,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Switch from "react-switch";
 import Home from "./routes/Home";
-import Login from "./routes/Login";
+import NaverLogin from "./NaverLogin";
 
 const curUser = {
   profile_image: "https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif",
@@ -61,59 +60,48 @@ const curUser = {
   ],
 };
 
-const getInfo = () => {
-  var naver_id_login = new window.naver_id_login(
-    "nuZ04sTeb2LDphCqc4qv", // client ID
-    "http://localhost:3000/" // callback url
-  );
-  // 접근 토큰 값 출력
-  console.log(naver_id_login.oauthParams.access_token);
-
-  // 네이버 사용자 프로필 조회
-  //naver_id_login.get_naver_userprofile("naverSignInCallback()");
-  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-
-  function naverSignInCallback() {
-    console.log(naver_id_login.getProfileData("email"));
-    console.log(naver_id_login.getProfileData("nickname"));
-    console.log(naver_id_login.getProfileData("age"));
-  }
-  if (naver_id_login.oauthParams.access_token) {
-    console.log("success!");
-    return true;
-  } else {
-    console.log("failed💀");
-    return false;
-  }
-};
-
 const App = () => {
-  const access_token = getInfo();
+  const [token, setToken] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
-  useEffect(() => {
-    getInfo();
-  }, []);
+  const handleToken = (token) => {
+    setToken(token);
+  };
+  const handleUserInfo = (user) => {
+    setUserInfo(user);
+  };
+
+  //const userID = userInfo.getEmail();
+  //const username = userInfo.getName();
+  //const getUserInfo = async () => {
+  //  try {
+  //    const response = await fetch(
+  //      `http://localhost:8080/${userID}/${username}`
+  //    );
+  //    const json = await response.json();
+  //    console.log(json);
+  //  } catch (error) {
+  //    console.error(error);
+  //  }
+  //};
+  //useEffect(() => getUserInfo, []);
 
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home user={curUser} />} />
         <Route
-          exact
           path="/login"
-          element={access_token ? <Navigate to="/" /> : <Login />}
-        />
-        <Route
-          exact
-          path="/"
           element={
-            access_token ? <Home user={curUser} /> : <Navigate to="/login" />
+            <NaverLogin
+              setGetToken={handleToken}
+              setUserInfo={handleUserInfo}
+            />
           }
         />
       </Routes>
     </Router>
   );
 };
-//<Route exact path="/login" element={<Login />}></Route>
-//<Route exact path="/" element={<Home user={curUser} />}></Route>
 
 export default App;
