@@ -1,11 +1,13 @@
 import styles from "./Button.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const List = ({ onClick, list, selected }) => {
   const isSelected = selected.id === list.id;
 
   return (
     <>
-      <li key={list.id}>
+      <li className="list-li" key={list.id}>
         <button
           id={list.id}
           className={
@@ -23,6 +25,9 @@ const List = ({ onClick, list, selected }) => {
             ></path>
           </svg>
           <span>{list.name}</span>
+          <div className="list-edit-div">
+            <FontAwesomeIcon className="list-edit-btn" icon={faPenToSquare} />
+          </div>
         </button>
       </li>
     </>
