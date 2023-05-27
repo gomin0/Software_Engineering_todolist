@@ -8,6 +8,30 @@
   background-color: rgb(240, 240, 240);
 }
 
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.add-list {
+  width: 30px;
+  height: 30px;
+  background-color: unset;
+}
+
+.add-list:hover {
+  background: rgb(200, 200, 200);
+  border-radius: 5px;
+}
+
+.add-list-btn {
+  width: 15px;
+  height: 15px;
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
