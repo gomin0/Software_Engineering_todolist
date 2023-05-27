@@ -4,12 +4,10 @@ import Main from "../components/Main";
 import List from "../components/List";
 import ToDo from "../components/ToDo";
 
-const Home = ({ user }) => {
-  const lists = user.lists;
-
+const Home = ({ curUser, lists }) => {
   return (
     <>
-      <Header user={user}></Header>
+      <Header curUser={curUser}></Header>
       <Main lists={lists}></Main>
     </>
   );
