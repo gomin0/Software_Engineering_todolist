@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./routes/Home";
-import NaverLogin from "./NaverLogin";
+import NaverLogin from "./routes/NaverLogin";
 
 const curUser = {
   profile_image: "https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif",
@@ -64,15 +64,55 @@ const App = () => {
   const [token, setToken] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
-  const handleToken = (token) => {
-    setToken(token);
+  const { naver } = window;
+  const NAVER_CLIENT_ID = "nuZ04sTeb2LDphCqc4qv"; // client ID
+  const NAVER_CALLBACK_URL = "http://localhost:3000/"; // callback url
+
+  const callbackNaverLogin = () => {
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: NAVER_CLIENT_ID,
+      callbackUrl: NAVER_CALLBACK_URL,
+      isPopup: false,
+      callbackHandle: true,
+    });
+    naverLogin.init();
+
+    naverLogin.getLoginStatus(async function (status) {
+      if (status) {
+        const userID = naverLogin.user.getEmail();
+        const username = naverLogin.user.getName();
+        const profileImageURL = naverLogin.user.getProfileImage();
+        localStorage.setItem("id", userID);
+        localStorage.setItem("username", username);
+        localStorage.setItem("profile_image", profileImageURL);
+        setUserInfo(naverLogin.user);
+
+        // TODO: when in a login a page, the following line causing a problem
+        const token = window.location.href.split("=")[1].split("&")[0];
+        localStorage.setItem("access_token", token);
+        setToken(token);
+      }
+    });
   };
-  const handleUserInfo = (user) => {
-    setUserInfo(user);
-  };
+  useEffect(() => {
+    callbackNaverLogin();
+  }, []);
 
   const userID = localStorage.getItem("id");
   const username = localStorage.getItem("username");
+  const profileImageURL = localStorage.getItem("profile_image");
+  // const userID = userInfo.email;
+  // const username = userInfo.name;
+  // const profileImageURL = userInfo.profile_image;
+  const access_token = token;
+
+  const user = {
+    userID: userID,
+    username: username,
+    profileImageURL: profileImageURL,
+    access_token: access_token,
+  };
+  console.log(user);
 
   /* !!! uncomment the below and test !!! */
   //const getUserInfo = async () => {
@@ -91,16 +131,11 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home user={curUser} />} />
         <Route
-          path="/login"
-          element={
-            <NaverLogin
-              setGetToken={handleToken}
-              setUserInfo={handleUserInfo}
-            />
-          }
+          path="/"
+          element={<Home curUser={user} lists={curUser.lists} />}
         />
+        <Route path="/login" element={<NaverLogin />} />
       </Routes>
     </Router>
   );
