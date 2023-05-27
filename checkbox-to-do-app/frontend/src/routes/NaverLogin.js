@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const NaverLogin = ({ setGetToken, setUserInfo }) => {
+const NaverLogin = () => {
   const { naver } = window;
   const NAVER_CLIENT_ID = "nuZ04sTeb2LDphCqc4qv"; // client ID
   const NAVER_CALLBACK_URL = "http://localhost:3000/"; // callback url
@@ -14,35 +14,22 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
       callbackHandle: true,
     });
     naverLogin.init();
-
-    naverLogin.getLoginStatus(async function (status) {
-      if (status) {
-        const userID = naverLogin.user.getEmail();
-        const username = naverLogin.user.getName();
-        const profileImageURL = naverLogin.user.getProfileImage();
-        setUserInfo(naverLogin.user);
-        localStorage.setItem("id", userID);
-        localStorage.setItem("username", username);
-        localStorage.setItem("profile_image", profileImageURL);
-        alert("called!");
-      }
-    });
   };
 
-  const getAccessToken = () => {
-    const token = window.location.href.split("=")[1].split("&")[0];
-    alert(token);
-    localStorage.setItem("access_token", token);
-    setGetToken(token);
-  };
+  // const getAccessToken = () => {
+  //   const token = window.location.href.split("=")[1].split("&")[0];
+  //   alert(token);
+  //   localStorage.setItem("access_token", token);
+  //   setGetToken(token);
+  // };
 
-  const getUserAccessToken = () => {
-    window.location.href.includes("access_token") && getAccessToken();
-  };
+  // const getUserAccessToken = () => {
+  //   window.location.href.includes("access_token") && getAccessToken();
+  // };
 
   useEffect(() => {
     initNaverLogin();
-    getUserAccessToken();
+    //getUserAccessToken();
   }, []);
 
   return <div id="naverIdLogin" />;
