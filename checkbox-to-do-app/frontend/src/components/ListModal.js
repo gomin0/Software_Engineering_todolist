@@ -6,8 +6,8 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
 
   const [data, setData] = useState({
     userID: curUser.userID,
-    listID: editMode ? list.id : null,
-    listTitle: editMode ? list.name : null,
+    listID: editMode ? list.id : "",
+    listTitle: editMode ? list.name : "",
     createdDate: editMode ? list.createdDate : new Date(),
   });
 
