@@ -22,5 +22,8 @@
     - `npm i react-router-dom`
 - ~~[axios](https://github.com/axios/axios)~~
     - ~~`npm i axios`~~
-- fontawesome(https://fontawesome.com/docs/web/use-with/react/)
-    - `npm i --save fortawesome/react-fontawesome`
+- [fontawesome](https://fontawesome.com/docs/web/use-with/react/)
+    - `npm i --save @fortawesome/fontawesome-svg-core`
+    - `npm i --save @fortawesome/free-solid-svg-icons`
+    - `npm i --save @fortawesome/free-regular-svg-icons`
+    - `npm i --save @fortawesome/react-fontawesome@latest`

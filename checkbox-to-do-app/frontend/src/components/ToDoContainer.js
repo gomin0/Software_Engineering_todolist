@@ -7,7 +7,7 @@ const ToDoContainer = ({ curList }) => {
   return (
     <div className="todo-container" style={style}>
       {todos?.map((todo) => (
-        <ToDo todo={todo} />
+        <ToDo key={todo.id} todo={todo} />
       ))}
     </div>
   );
