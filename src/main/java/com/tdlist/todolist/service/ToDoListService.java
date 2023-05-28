@@ -1,5 +1,5 @@
-package com.tdlist.todolist.service;
-
+//package com.tdlist.todolist.service;
+//
 //import com.tdlist.todolist.domain.ToDoList;
 //import com.tdlist.todolist.domain.ToDo;
 //import com.tdlist.todolist.repository.ToDoListRepository;
@@ -14,12 +14,12 @@ package com.tdlist.todolist.service;
 //
 //@Service
 //@Transactional
-//public class ToDoService {
+//public class ToDoListService {
 //
 //    private final ToDoListRepository toDoListRepository;
 //    private final ToDoRepository toDoRepository;
 //
-//    public ToDoService(ToDoListRepository toDoListRepository, ToDoRepository toDoRepository) {
+//    public ToDoListService(ToDoListRepository toDoListRepository, ToDoRepository toDoRepository) {
 //        this.toDoListRepository = toDoListRepository;
 //        this.toDoRepository = toDoRepository;
 //    }
@@ -29,8 +29,12 @@ package com.tdlist.todolist.service;
 //        return toDoListRepository.save(toDoList);
 //    }
 //
-//    public List<ToDoList> getAllToDoLists() {
-//        return toDoListRepository.findAllToDoLists();
+//    public Optional<ToDo> getToDoById(Long toDoId) {
+//        return toDoRepository.findById(toDoId);
+//    }
+//
+//    public List<ToDo> getAllToDoLists() {
+//        return toDoListRepository.findAll();
 //    }
 //
 //    public ToDoList updateToDoList(ToDoList toDoList) {
@@ -41,15 +45,16 @@ package com.tdlist.todolist.service;
 //        toDoListRepository.deleteById(toDoListId);
 //    }
 //
-//    public ToDo createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate, LocalDate createDate, Boolean isCompleted) {
-//        ToDo toDo = new ToDo();
-//        toDo.setTitle(title);
-//        toDo.setDescription(description);
-//        toDo.setPriority(priority);
-//        toDo.setDueDate(dueDate);
-//        toDo.setRemindDate(remindDate);
-//        toDo.setCreatedDate(createDate);
-//        toDo.setIsCompleted(isCompleted);
+//    public ToDo createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate) {
+//        ToDo toDo = ToDo.builder()
+//                .title(title)
+//                .description(description)
+//                .priority(priority)
+//                .dueDate(dueDate)
+//                .createdDate(LocalDate.now())
+//                .remindDate(remindDate)
+//                .isCompleted(false)
+//                .build();
 //        toDo.setList(toDoList);
 //        return toDoRepository.save(toDo);
 //    }
