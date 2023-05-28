@@ -1,14 +1,15 @@
 import { useState } from "react";
 import style from "./ListModal.css";
 
-const ListModal = ({ mode, setShowModal }) => {
-  const editMode = mode === "Edit" ? true : false;
+const ListModal = ({ mode, setShowModal, list }) => {
+  const editMode = mode === "Modify" ? true : false;
+  console.log(list);
 
   const [data, setData] = useState({
-    userID: "",
-    listID: "",
-    listName: "",
-    createdDate: editMode ? "" : new Date(),
+    userID: null,
+    listID: null,
+    listTitle: null,
+    createdDate: new Date(),
   });
 
   const handleChange = (event) => {
@@ -37,8 +38,8 @@ const ListModal = ({ mode, setShowModal }) => {
               required
               maxLength={20}
               placeholder="add a new list"
-              name="listName"
-              value={data.listName}
+              name="listTitle"
+              value={data.listTitle}
               onChange={handleChange}
             />
           </form>
