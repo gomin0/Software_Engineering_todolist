@@ -16,8 +16,8 @@ const Header = ({ curUser }) => {
       const response = await axios.get("/oauth2.0/token", {
         params: {
           grant_type: "delete",
-          client_id: "nuZ04sTeb2LDphCqc4qv",
-          client_secret: "14kXprQq98",
+          client_id: process.env.NAVER_CLIENT_ID,
+          client_secret: process.env.NAVER_CLIENT_SECRET,
           access_token: curUser.access_token,
           service_provider: "NAVER",
         },
