@@ -4,9 +4,7 @@ import SideBar from "./SideBar";
 import Inbox from "./Inbox";
 
 const Main = ({ curUser, lists }) => {
-  var initialList = lists[0];
-  var [curList, setListName] = useState(initialList);
-  const [selection, setSelect] = useState(0);
+  const [selection, setSelect] = useState(lists[0]);
 
   const clickAndSelectList = (event) => {
     //const selectedID = event.target.id;
@@ -14,7 +12,7 @@ const Main = ({ curUser, lists }) => {
     //setListName(selectedList);
     const select = event.target.id;
     console.log(select);
-    setSelect(selection);
+    //setSelect(lists[select]);
   };
 
   return (
@@ -23,9 +21,9 @@ const Main = ({ curUser, lists }) => {
         curUser={curUser}
         clickList={(event) => clickAndSelectList(event)}
         lists={lists}
-        selected={curList}
+        selected={selection}
       />
-      <Inbox curList={curList} />
+      <Inbox curList={selection} />
     </div>
   );
 };
