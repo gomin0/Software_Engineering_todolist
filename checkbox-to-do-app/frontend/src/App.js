@@ -114,20 +114,6 @@ const App = () => {
   };
   console.log(user);
 
-  /* !!! uncomment the below and test !!! */
-  //const getUserInfo = async () => {
-  //  try {
-  //    const response = await fetch(
-  //      `http://localhost:8080/${userID}/${username}`
-  //    );
-  //    const json = await response.json();
-  //    console.log(json);
-  //  } catch (error) {
-  //    console.error(error);
-  //  }
-  //};
-  //useEffect(() => getUserInfo, []);
-
   return (
     <Router>
       <Routes>
