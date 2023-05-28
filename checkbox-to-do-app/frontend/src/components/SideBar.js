@@ -36,7 +36,9 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
     setShowModal(true);
   };
 
-  const handleModifyButton = () => {
+  const handleModifyButton = (event) => {
+    const id = event.target.parentNode.parentNode.parentNode.id;
+    console.log(lists[id]);
     setMode("Modify");
     setShowModal(true);
   };
@@ -49,7 +51,14 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
           <FontAwesomeIcon icon={faPlus} className="add-list-btn" />
         </button>
       </div>
-      {showModal && <ListModal mode={mode} setShowModal={setShowModal} />}
+      {showModal && (
+        <ListModal
+          curUser={curUser}
+          mode={mode}
+          setShowModal={setShowModal}
+          list={selected}
+        />
+      )}
       <div className="list-container">
         <ul className="lists">
           {curLists?.map((list) => (
@@ -63,6 +72,7 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
           ))}
           {showModal && (
             <ListModal
+              curUser={curUser}
               mode={mode}
               setShowModal={setShowModal}
               list={selected}
