@@ -9,6 +9,7 @@ import Home from "./routes/Home";
 import NaverLogin from "./routes/NaverLogin";
 
 const curUser = {
+  userID: "",
   profile_image: "https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif",
   userName: "Kim",
   lists: [
@@ -115,6 +116,8 @@ const App = () => {
     access_token: access_token,
   };
   console.log(user);
+  curUser.userID = user.userID;
+  console.log(curUser.userID);
 
   return (
     <Router>
