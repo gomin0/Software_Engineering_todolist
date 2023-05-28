@@ -1,15 +1,14 @@
 import { useState } from "react";
 import style from "./ListModal.css";
 
-const ListModal = ({ mode, setShowModal, list }) => {
+const ListModal = ({ curUser, mode, setShowModal, list }) => {
   const editMode = mode === "Modify" ? true : false;
-  console.log(list);
 
   const [data, setData] = useState({
-    userID: null,
-    listID: null,
-    listTitle: null,
-    createdDate: new Date(),
+    userID: curUser.userID,
+    listID: editMode ? list.id : null,
+    listTitle: editMode ? list.name : null,
+    createdDate: editMode ? list.createdDate : new Date(),
   });
 
   const handleChange = (event) => {
@@ -19,8 +18,23 @@ const ListModal = ({ mode, setShowModal, list }) => {
       ...data,
       [name]: value,
     }));
+  };
 
-    console.log(data);
+  const postList = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:8080/${curUser.userID}/todolist`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -49,7 +63,9 @@ const ListModal = ({ mode, setShowModal, list }) => {
           <button className="cancel-btn" onClick={() => setShowModal(false)}>
             Cancel
           </button>
-          <button className="submit-btn">Submit</button>
+          <button className="submit-btn" onClick={postList}>
+            Submit
+          </button>
         </div>
       </div>
     </div>
