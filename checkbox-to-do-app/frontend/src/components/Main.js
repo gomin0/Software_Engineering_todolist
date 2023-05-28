@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./Main.css";
 import SideBar from "./SideBar";
 import Inbox from "./Inbox";
 
-const Main = ({ lists }) => {
+const Main = ({ curUser, lists }) => {
   var initialList = lists[0];
   var [curList, setListName] = useState(initialList);
 
@@ -16,7 +16,8 @@ const Main = ({ lists }) => {
   return (
     <div className="main" style={style}>
       <SideBar
-        onClick={(event) => clickAndSelectList(event)}
+        curUser={curUser}
+        clickList={(event) => clickAndSelectList(event)}
         lists={lists}
         selected={curList}
       />
