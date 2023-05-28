@@ -2,7 +2,7 @@ import styles from "./Button.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
-const List = ({ list, selected, clickList, setShowModal }) => {
+const List = ({ list, selected, clickList, onClickModify }) => {
   const isSelected = selected.id === list.id;
 
   // const handleListClick = (event) => {
@@ -22,7 +22,7 @@ const List = ({ list, selected, clickList, setShowModal }) => {
               : styles.Button
           }
           selected
-          onClick={(event) => clickList(event)}
+          onClick={clickList}
         >
           <svg className="list-icon" viewBox="0 0 24 24">
             <path
@@ -31,7 +31,7 @@ const List = ({ list, selected, clickList, setShowModal }) => {
             ></path>
           </svg>
           <span>{list.name}</span>
-          <div className="list-edit-div" onClick={() => setShowModal(true)}>
+          <div className="list-edit-div" onClick={onClickModify}>
             <FontAwesomeIcon className="list-edit-btn" icon={faPenToSquare} />
           </div>
         </button>
