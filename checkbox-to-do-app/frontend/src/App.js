@@ -15,6 +15,8 @@ const curUser = {
     {
       id: 0,
       name: "1st",
+      userID: 1000,
+      createdDate: new Date(),
       todos: [
         {
           id: 0,
