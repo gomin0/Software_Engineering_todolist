@@ -26,33 +26,47 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
   };
   useEffect(() => getAllLists(), []);
   // TODO: replace lists with getListInfo()
-
   const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
-  const [showModal, setShowModal] = useState(false);
 
-  // NOTE: search bar
+  const [showModal, setShowModal] = useState(false);
+  const [mode, setMode] = useState("");
+
+  const handleCreateButton = () => {
+    setMode("Create");
+    setShowModal(true);
+  };
+
+  const handleModifyButton = () => {
+    setMode("Modify");
+    setShowModal(true);
+  };
+
   return (
     <div className="sidebar" style={style}>
       <div className="list-header">
         <h3>Lists</h3>
-        <button className="add-list" onClick={() => setShowModal(true)}>
+        <button className="add-list" onClick={handleCreateButton}>
           <FontAwesomeIcon icon={faPlus} className="add-list-btn" />
         </button>
       </div>
-      {showModal && <ListModal mode={"Create"} setShowModal={setShowModal} />}
+      {showModal && <ListModal mode={mode} setShowModal={setShowModal} />}
       <div className="list-container">
         <ul className="lists">
           {curLists?.map((list) => (
             <List
               key={list.id}
               clickList={clickList}
-              setShowModal={setShowModal}
+              onClickModify={handleModifyButton}
               list={list}
               selected={selected}
             />
           ))}
           {showModal && (
-            <ListModal mode={"Modify"} setShowModal={setShowModal} />
+            <ListModal
+              mode={mode}
+              setShowModal={setShowModal}
+              list={selected}
+            />
           )}
         </ul>
       </div>
