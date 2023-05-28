@@ -117,7 +117,6 @@ const App = () => {
   };
   console.log(user);
   curUser.userID = user.userID;
-  console.log(curUser.userID);
 
   return (
     <Router>
