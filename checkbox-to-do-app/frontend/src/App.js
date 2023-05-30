@@ -82,10 +82,10 @@ const App = () => {
 
     naverLogin.getLoginStatus(async function (status) {
       if (status) {
-        const userID = naverLogin.user.getEmail();
+        const userEmail = naverLogin.user.getEmail();
         const username = naverLogin.user.getName();
         const profileImageURL = naverLogin.user.getProfileImage();
-        localStorage.setItem("id", userID);
+        localStorage.setItem("userEmail", userEmail);
         localStorage.setItem("username", username);
         localStorage.setItem("profile_image", profileImageURL);
         setUserInfo(naverLogin.user);
@@ -97,11 +97,8 @@ const App = () => {
       }
     });
   };
-  useEffect(() => {
-    callbackNaverLogin();
-  }, []);
 
-  const userID = localStorage.getItem("id");
+  const userEmail = localStorage.getItem("userEmail");
   const username = localStorage.getItem("username");
   const profileImageURL = localStorage.getItem("profile_image");
   // const userID = userInfo.email;
@@ -109,6 +106,42 @@ const App = () => {
   // const profileImageURL = userInfo.profile_image;
   const access_token = token;
 
+  const getUserInfo = async (userEmail) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/userEmail/${userEmail}`
+      );
+      if (!response) {
+        // if user not found
+        try {
+          // add a new user
+          const newResponse = await fetch(`http://localhost:8080/user`, {
+            method: "POST",
+            header: { "Content-Type": "application/json" },
+            body: JSON.stringify(user),
+          });
+          const newJson = await newResponse.json();
+          console.log(newJson.id);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        // user found
+        const json = await response.json();
+        console.log(json.id); // console.log user id
+        localStorage.setItem("userID", json.id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    callbackNaverLogin();
+    getUserInfo(userEmail);
+  }, []);
+
+  const userID = localStorage.getItem("userID");
   const user = {
     userID: userID,
     username: username,
