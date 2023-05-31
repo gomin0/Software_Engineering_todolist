@@ -41,11 +41,11 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
     <div className="overlay">
       <div className="list-modal">
         <div className="list-modal-top">
-          <h2>{mode} a list</h2>
+          <h3>{mode} a list</h3>
         </div>
 
         <div className="list-modal-mid">
-          <h3>Name</h3>
+          <h4>Name</h4>
           <form>
             <input
               className="list-input"

@@ -3,7 +3,7 @@ import style from "./ToDo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
-const ToDo = ({ todo }) => {
+const ToDo = ({ todo, onClickModify }) => {
   const isCompleted = todo.isCompleted;
   const [isChecked, setIsChecked] = useState(isCompleted);
 
@@ -24,7 +24,7 @@ const ToDo = ({ todo }) => {
           />
           <p className="todo-text">{todo.title}</p>
         </div>
-        <div className="todo-edit">
+        <div className="todo-edit" onClick={onClickModify}>
           <FontAwesomeIcon icon={faCircleInfo} />
         </div>
       </div>

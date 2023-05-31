@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./routes/Home";
-import NaverLogin from "./routes/NaverLogin";
+import Login from "./routes/Login";
 
 const curUser = {
   userID: "",
@@ -158,7 +158,7 @@ const App = () => {
           path="/"
           element={<Home curUser={user} lists={curUser.lists} />}
         />
-        <Route path="/login" element={<NaverLogin />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

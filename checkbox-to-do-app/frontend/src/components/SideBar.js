@@ -47,10 +47,12 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
     <div className="sidebar" style={style}>
       <div className="list-header">
         <h3>Lists</h3>
+
         <button className="add-list" onClick={handleCreateButton}>
           <FontAwesomeIcon icon={faPlus} className="add-list-btn" />
         </button>
       </div>
+
       {showModal && (
         <ListModal
           curUser={curUser}
@@ -59,6 +61,7 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
           list={selected}
         />
       )}
+
       <div className="list-container">
         <ul className="lists">
           {curLists?.map((list) => (
@@ -78,6 +81,7 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
               list={selected}
             />
           )}
+
         </ul>
       </div>
     </div>
