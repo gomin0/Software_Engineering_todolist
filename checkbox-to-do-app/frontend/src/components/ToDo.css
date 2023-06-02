@@ -18,6 +18,10 @@
   font-size: 1rem;
 }
 
+.todo-btns {
+  display: flex;
+}
+
 .todo-checkbox-container {
   display: flex;
   align-items: center;
@@ -51,6 +55,20 @@
   background-color: unset;
 }
 
+.todo-delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  background-color: unset;
+}
+
 .todo-edit:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.todo-delete:hover {
   background-color: rgb(230, 230, 230);
 }
