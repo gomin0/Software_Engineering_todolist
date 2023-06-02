@@ -101,11 +101,6 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
             />
           </div>
 
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={activateReminder}
-          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Remind me on"

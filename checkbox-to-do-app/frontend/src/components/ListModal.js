@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 import style from "./ListModal.css";
-import dayjs from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 const ListModal = ({ curUser, mode, setShowModal, list }) => {
   const editMode = mode === "Modify" ? true : false;
