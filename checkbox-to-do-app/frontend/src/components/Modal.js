@@ -4,6 +4,9 @@ import style from "./Modal.css";
 const Modal = ({ closeModal }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -11,6 +14,26 @@ const Modal = ({ closeModal }) => {
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
+  };
+
+  const activateReminder = () => {
+    setIsChecked((prev) => !prev);
+  };
+
+  const handleDate = (newDate) => {
+    setDate(newDate);
+    setData((data) => ({
+      ...data,
+      remindDate: `${date.$M}, ${date.$D}, ${date.$y}`,
+    }));
+  };
+
+  const handleTime = (newTime) => {
+    setTime(newTime);
+    setData((data) => ({
+      ...data,
+      remindTime: `${time.$H}, ${time.$m}`,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -42,6 +65,23 @@ const Modal = ({ closeModal }) => {
               onChange={handleContentChange}
               placeholder="내용"
             />
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={activateReminder}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Remind me on"
+                value={date}
+                onChange={(newDate) => handleDate(newDate)}
+              />
+              <TimePicker
+                label="Remind me at"
+                value={time}
+                onChange={(newTime) => handleTime(newTime)}
+              />
+            </LocalizationProvider>
           </div>
 
           <div className="submit-contatiner">
