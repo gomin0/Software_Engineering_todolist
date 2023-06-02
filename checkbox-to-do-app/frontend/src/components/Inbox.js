@@ -1,13 +1,55 @@
 import { useEffect, useState } from "react";
 import style from "./Inbox.css";
+import Dropdown from "./Dropdown";
 import ToDo from "./ToDo";
 import ToDoModal from "./ToDoModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Inbox = ({ curList }) => {
+  const curTodos = curList.todos.map((todo) => ({ ...todo, key: todo.id }));
+  const [curToDos, setCurToDos] = useState(curTodos);
+
   const [showModal, setShowModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("");
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
+  const filterCompleted = () => {
+    const todos = curList.todos;
+    const completedToDos = todos.filter((todo) => {
+      return todo.isCompleted;
+    });
+    setCurToDos(completedToDos);
+  };
+
+  const handleNormalMenu = () => {
+    setCurToDos(curTodos);
+    setOpen(false);
+  };
+
+  const handleCompleteMenu = () => {
+    // show completed todos only
+    filterCompleted();
+    setOpen(false);
+  };
+  const handlePriorityMenu = () => {
+    alert("Prio");
+    setOpen(false);
+  };
+
+  const handleDueDateMenu = () => {
+    alert("Due");
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    handleNormalMenu();
+    handleCompleteMenu();
+  }, []);
 
   const getToDosInfo = async (curList) => {
     try {
@@ -58,17 +100,25 @@ const Inbox = ({ curList }) => {
     deleteToDo(curList, id);
   };
 
-  const curTodos = curList.todos.map((todo) => ({ ...todo, key: todo.id }));
-
   return (
     <div className="inbox">
       <div className="list-name" style={style}>
         <h2>{curList.name}</h2>
+        <Dropdown
+          open={open}
+          trigger={<button onClick={handleOpen}>Option</button>}
+          menu={[
+            <button onClick={handleNormalMenu}>Normal View</button>,
+            <button onClick={handleCompleteMenu}>Completed Tasks</button>,
+            <button onClick={handlePriorityMenu}>Menu 1</button>,
+            <button onClick={handleDueDateMenu}>Menu 2</button>,
+          ]}
+        />
       </div>
 
       <div className="toDo-container">
         <ul className="todos">
-          {curTodos?.map((todo) => (
+          {curToDos?.map((todo) => (
             <ToDo
               onClickModify={handleModifyButton}
               onClickDelete={handleDeleteButton}
@@ -80,7 +130,7 @@ const Inbox = ({ curList }) => {
             <ToDoModal
               curList={curList}
               setShowModal={setShowModal}
-              todo={curTodos} // 이거 이대로 둬도되나
+              todo={curToDos} // 이거 이대로 둬도되나
               mode={mode}
             />
           )}
@@ -96,7 +146,7 @@ const Inbox = ({ curList }) => {
         <ToDoModal
           curList={curList}
           setShowModal={setShowModal}
-          todo={curTodos} // 이거 이대로 둬도되나
+          todo={curToDos} // 이거 이대로 둬도되나
           mode={mode}
         />
       )}

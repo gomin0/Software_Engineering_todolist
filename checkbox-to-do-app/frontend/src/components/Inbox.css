@@ -7,8 +7,12 @@
 }
 
 .list-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 20px;
   font-size: 1rem;
+  width: 83%;
 }
 
 .todo-container {
@@ -43,5 +47,3 @@
   height: 15px;
   border-radius: 50%;
 }
-
-
