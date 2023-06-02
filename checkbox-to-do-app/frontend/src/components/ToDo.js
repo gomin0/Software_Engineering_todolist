@@ -3,18 +3,13 @@ import style from "./ToDo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const ToDo = ({ todo, onClickModify }) => {
+const ToDo = ({ todo, onClickModify, onClickDelete }) => {
   const isCompleted = todo.isCompleted;
   const [isChecked, setIsChecked] = useState(isCompleted);
 
   const updateChecked = () => {
     setIsChecked((prev) => !prev);
     todo.isCompleted = !isChecked;
-  };
-
-  const deleteToDo = (event) => {
-    const id = event.target.parentElement.parentElement.parentElement.id;
-    console.log(id);
   };
 
   return (
@@ -30,10 +25,10 @@ const ToDo = ({ todo, onClickModify }) => {
           <p className="todo-text">{todo.title}</p>
         </div>
         <div className="todo-btns">
-          <div className="todo-edit">
+          <div className="todo-edit" onClick={onClickModify}>
             <FontAwesomeIcon icon={faInfo} />
           </div>
-          <div className="todo-delete" onClick={deleteToDo}>
+          <div className="todo-delete" onClick={onClickDelete}>
             <FontAwesomeIcon icon={faTrash} />
           </div>
         </div>

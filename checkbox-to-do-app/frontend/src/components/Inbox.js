@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./Inbox.css";
 import ToDo from "./ToDo";
 import ToDoModal from "./ToDoModal";
@@ -9,9 +9,24 @@ const Inbox = ({ curList }) => {
   const [showModal, setShowModal] = useState(false);
   const [mode, setMode] = useState("");
 
+  const getToDosInfo = async (curList) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/${curList.userID}/${curList.listID}`
+      );
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //useEffect(() => getToDosInfo(curList), []);
+
   const handleCreateButton = () => {
     setMode("Create");
     setShowModal(true);
+    // 8080번 포트로 POST 호출
   };
 
   const handleModifyButton = (event) => {
@@ -19,6 +34,28 @@ const Inbox = ({ curList }) => {
     console.log(curList[id]);
     setMode("Modify");
     setShowModal(true);
+    // 8080번 포트로 PUT 호출
+  };
+
+  const deleteToDo = async (curList, id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/todolist/${curList.listID}/todos/${id}`,
+        {
+          method: "DELETE",
+          header: { "Content-Type": "application/json" },
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteButton = (event) => {
+    const id = event.target.parentElement.parentElement.parentElement.id;
+    console.log(id);
+    // 8080번 포트로 DELETE 호출
+    deleteToDo(curList, id);
   };
 
   const curTodos = curList.todos.map((todo) => ({ ...todo, key: todo.id }));
@@ -34,6 +71,7 @@ const Inbox = ({ curList }) => {
           {curTodos?.map((todo) => (
             <ToDo
               onClickModify={handleModifyButton}
+              onClickDelete={handleDeleteButton}
               key={todo.id}
               todo={todo}
             />
