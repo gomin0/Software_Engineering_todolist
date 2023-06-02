@@ -16,26 +16,6 @@ const Modal = ({ closeModal }) => {
     setContent(e.target.value);
   };
 
-  const activateReminder = () => {
-    setIsChecked((prev) => !prev);
-  };
-
-  const handleDate = (newDate) => {
-    setDate(newDate);
-    setData((data) => ({
-      ...data,
-      remindDate: `${date.$M}, ${date.$D}, ${date.$y}`,
-    }));
-  };
-
-  const handleTime = (newTime) => {
-    setTime(newTime);
-    setData((data) => ({
-      ...data,
-      remindTime: `${time.$H}, ${time.$m}`,
-    }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // 입력된 제목과 내용을 활용하여 원하는 작업 수행
@@ -65,23 +45,6 @@ const Modal = ({ closeModal }) => {
               onChange={handleContentChange}
               placeholder="내용"
             />
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={activateReminder}
-            />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Remind me on"
-                value={date}
-                onChange={(newDate) => handleDate(newDate)}
-              />
-              <TimePicker
-                label="Remind me at"
-                value={time}
-                onChange={(newTime) => handleTime(newTime)}
-              />
-            </LocalizationProvider>
           </div>
 
           <div className="submit-contatiner">
