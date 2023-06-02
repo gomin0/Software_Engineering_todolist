@@ -6,16 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Inbox = ({ curList }) => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const openModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  // };
-
   const [showModal, setShowModal] = useState(false);
   const [mode, setMode] = useState("");
 
@@ -31,7 +21,7 @@ const Inbox = ({ curList }) => {
     setShowModal(true);
   };
 
-  const curTodos = curList.todos.map(todo => ({...todo, key: todo.id}));
+  const curTodos = curList.todos.map((todo) => ({ ...todo, key: todo.id }));
 
   return (
     <div className="inbox">
@@ -40,7 +30,7 @@ const Inbox = ({ curList }) => {
       </div>
 
       <div className="toDo-container">
-        <ul className = "todos">
+        <ul className="todos">
           {curTodos?.map((todo) => (
             <ToDo
               onClickModify={handleModifyButton}
@@ -50,29 +40,28 @@ const Inbox = ({ curList }) => {
           ))}
           {showModal && (
             <ToDoModal
+              curList={curList}
               setShowModal={setShowModal}
-              todo={curTodos}  // 이거 이대로 둬도되나
+              todo={curTodos} // 이거 이대로 둬도되나
               mode={mode}
             />
           )}
-        
         </ul>
       </div>
-      
 
       <button className="add-todo" onClick={handleCreateButton}>
         <FontAwesomeIcon icon={faPlus} className="add-todo-btn" />
         <p>add a new task</p>
-        </button>
+      </button>
 
-        {showModal && (
-            <ToDoModal
-              setShowModal={setShowModal}
-              todo={curTodos}  // 이거 이대로 둬도되나
-              mode={mode}
-            />
-          )}
-          
+      {showModal && (
+        <ToDoModal
+          curList={curList}
+          setShowModal={setShowModal}
+          todo={curTodos} // 이거 이대로 둬도되나
+          mode={mode}
+        />
+      )}
     </div>
   );
 };
