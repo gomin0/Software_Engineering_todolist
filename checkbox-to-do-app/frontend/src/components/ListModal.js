@@ -9,18 +9,11 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 const ListModal = ({ curUser, mode, setShowModal, list }) => {
   const editMode = mode === "Modify" ? true : false;
 
-  // TODO: useState(sync with list)
-  const [isChecked, setIsChecked] = useState(false);
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-
   const [data, setData] = useState({
     userID: curUser.userID,
     listID: editMode ? list.id : "",
     listTitle: editMode ? list.name : "",
     createdDate: editMode ? list.createdDate : new Date(),
-    remindDate: editMode ? list.remindDate : date,
-    remindTime: editMode ? list.remindTime : time,
   });
 
   const handleChange = (event) => {
@@ -30,26 +23,6 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
     setData((data) => ({
       ...data,
       [name]: value,
-    }));
-  };
-
-  const activateReminder = () => {
-    setIsChecked((prev) => !prev);
-  };
-
-  const handleDate = (newDate) => {
-    setDate(newDate);
-    setData((data) => ({
-      ...data,
-      remindDate: `${date.$M}, ${date.$D}, ${date.$y}`,
-    }));
-  };
-
-  const handleTime = (newTime) => {
-    setTime(newTime);
-    setData((data) => ({
-      ...data,
-      remindTime: `${time.$H}, ${time.$m}`,
     }));
   };
 
@@ -92,23 +65,6 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
               onChange={handleChange}
             />
           </form>
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={activateReminder}
-          />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Remind me on"
-              value={date}
-              onChange={(newDate) => handleDate(newDate)}
-            />
-            <TimePicker
-              label="Remind me at"
-              value={time}
-              onChange={(newTime) => handleTime(newTime)}
-            />
-          </LocalizationProvider>
         </div>
 
         <div className="list-modal-down">
