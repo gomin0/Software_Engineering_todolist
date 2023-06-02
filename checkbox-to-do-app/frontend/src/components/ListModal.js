@@ -1,17 +1,30 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import style from "./ListModal.css";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 const ListModal = ({ curUser, mode, setShowModal, list }) => {
   const editMode = mode === "Modify" ? true : false;
+
+  // TODO: useState(sync with list)
+  const [isChecked, setIsChecked] = useState(false);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
 
   const [data, setData] = useState({
     userID: curUser.userID,
     listID: editMode ? list.id : "",
     listTitle: editMode ? list.name : "",
     createdDate: editMode ? list.createdDate : new Date(),
+    remindDate: editMode ? list.remindDate : date,
+    remindTime: editMode ? list.remindTime : time,
   });
 
   const handleChange = (event) => {
+    console.log(event.target);
     const { name, value } = event.target;
 
     setData((data) => ({
@@ -20,7 +33,28 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
     }));
   };
 
+  const activateReminder = () => {
+    setIsChecked((prev) => !prev);
+  };
+
+  const handleDate = (newDate) => {
+    setDate(newDate);
+    setData((data) => ({
+      ...data,
+      remindDate: `${date.$M}, ${date.$D}, ${date.$y}`,
+    }));
+  };
+
+  const handleTime = (newTime) => {
+    setTime(newTime);
+    setData((data) => ({
+      ...data,
+      remindTime: `${time.$H}, ${time.$m}`,
+    }));
+  };
+
   const postList = async (event) => {
+    console.log(data);
     event.preventDefault();
     try {
       const response = await fetch(
@@ -36,6 +70,7 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
       console.error(error);
     }
   };
+  // TODO: updateList -> update = PUT
 
   return (
     <div className="overlay">
@@ -57,6 +92,23 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
               onChange={handleChange}
             />
           </form>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={activateReminder}
+          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Remind me on"
+              value={date}
+              onChange={(newDate) => handleDate(newDate)}
+            />
+            <TimePicker
+              label="Remind me at"
+              value={time}
+              onChange={(newTime) => handleTime(newTime)}
+            />
+          </LocalizationProvider>
         </div>
 
         <div className="list-modal-down">

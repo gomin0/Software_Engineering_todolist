@@ -12,22 +12,24 @@ const Header = ({ curUser }) => {
   const navigate = useNavigate();
 
   const NaverLogout = async () => {
-    try {
-      const response = await axios.get("/oauth2.0/token", {
-        params: {
-          grant_type: "delete",
-          client_id: process.env.NAVER_CLIENT_ID,
-          client_secret: process.env.NAVER_CLIENT_SECRET,
-          access_token: curUser.access_token,
-          service_provider: "NAVER",
-        },
-      });
-      if (response) {
-        console.log(response);
-        navigate("/login");
+    if (window.confirm("Do you wish to sign out?")) {
+      try {
+        const response = await axios.get("/oauth2.0/token", {
+          params: {
+            grant_type: "delete",
+            client_id: process.env.NAVER_CLIENT_ID,
+            client_secret: process.env.NAVER_CLIENT_SECRET,
+            access_token: curUser.access_token,
+            service_provider: "NAVER",
+          },
+        });
+        if (response) {
+          console.log(response);
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
   return (
