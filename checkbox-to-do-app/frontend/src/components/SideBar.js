@@ -43,6 +43,21 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
     setShowModal(true);
   };
 
+  const handleDeleteButton = async (event) => {
+    const id = event.target.parentNode.parentNode.parentNode.id;
+    if (window.confirm("Delete list ${curLists[id]}.listTitle}?")) {
+      try {
+        const response = await fetch(`http://localhost:8080/todolist/${id}`, {
+          method: "DELETE",
+          header: { "Content-Type": "application/json" },
+          body: JSON.stringify(id),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="sidebar" style={style}>
       <div className="list-header">
@@ -81,7 +96,6 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
               list={selected}
             />
           )}
-
         </ul>
       </div>
     </div>
