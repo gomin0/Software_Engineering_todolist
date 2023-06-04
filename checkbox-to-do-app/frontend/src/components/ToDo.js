@@ -7,9 +7,22 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
   const isCompleted = todo.isCompleted;
   const [isChecked, setIsChecked] = useState(isCompleted);
 
-  const updateChecked = () => {
+  const updateChecked = async () => {
     setIsChecked((prev) => !prev);
     todo.isCompleted = !isChecked;
+    try {
+      const response = await fetch(
+        `http://localhost:8080/todolist/${todo.listID}/todos/${todo.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(todo),
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
