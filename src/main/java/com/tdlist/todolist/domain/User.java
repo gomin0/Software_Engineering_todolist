@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,10 +24,6 @@ public class User {
     private String userName;
     private String userEmail;
 
-//    private String naverId;
-//    private String naverName;
-//    private String naverEmail;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ToDoList> toDoLists;
 
@@ -38,9 +33,6 @@ public class User {
         this.userID = userID;
         this.userName = userName;
         this.userEmail = userEmail;
-//        this.naverId = naverId;
-//        this.naverName = naverName;
-//        this.naverEmail = naverEmail;
     }
 
     public void addToDoList(ToDoList toDoList) {
@@ -62,8 +54,8 @@ public class User {
         });
     }
 
-    public ToDo addToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate, LocalDate createDate, Boolean isCompleted) {
-        ToDo toDo = new ToDo(title, description, priority, dueDate, remindDate, createDate, isCompleted);
+    public ToDo addToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate) {
+        ToDo toDo = new ToDo(title, description, priority, dueDate, remindDate);
         toDoList.addToDoItem(toDo);
         toDo.setToDoList(toDoList);
         return toDo;
@@ -71,7 +63,7 @@ public class User {
 
 
 
-    public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority) {
+    public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority, Boolean isCompleted) {
         Optional<ToDo> existingToDoItem = toDoList.getToDoItems().stream()
                 .filter(item -> item.getId().equals(todoId))
                 .findFirst();

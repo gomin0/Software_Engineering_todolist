@@ -80,15 +80,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public ToDoList createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate, LocalDate createDate, Boolean isCompleted) {
+    public ToDoList createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate) {
         User user = toDoList.getUser();
-        user.addToDoItem(toDoList, title, description, priority, dueDate, remindDate, createDate, isCompleted);
+        user.addToDoItem(toDoList, title, description, priority, dueDate, remindDate);
         userRepository.save(user); // user 엔티티 저장
         return toDoList;
     }
 
-    public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority) {
-        userRepository.save(toDoList.getUser()).updateToDoItem(toDoList, todoId, title, description, priority);
+    public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority, Boolean isCompleted) {
+        userRepository.save(toDoList.getUser()).updateToDoItem(toDoList, todoId, title, description, priority, isCompleted);
     }
 
     public void deleteToDoItem(ToDoList toDoList, Long todoId) {

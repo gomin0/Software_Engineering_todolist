@@ -154,7 +154,8 @@ public class UserController {
     public ResponseEntity<ToDo> updateToDo(
             @PathVariable Long toDoListId,
             @PathVariable Long toDoId,
-            @RequestBody ToDo updatedToDo
+            @RequestBody ToDo updatedToDo,
+            @RequestParam(value = "completed", required = false) Boolean completed
     ) {
         Optional<ToDoList> existingToDoList = userService.getToDoListById(toDoListId);
         if (existingToDoList.isPresent()) {
@@ -165,10 +166,13 @@ public class UserController {
                 toDo.setTitle(updatedToDo.getTitle());
                 toDo.setDescription(updatedToDo.getDescription());
                 toDo.setPriority(updatedToDo.getPriority());
-                // 나머지 속성들 업데이트
+
+                if (completed != null) {
+                    toDo.setIsCompleted(completed);
+                }
 
                 // ToDo 저장
-                userService.updateToDoItem(toDoList, toDoId, toDo.getTitle(), toDo.getDescription(), toDo.getPriority());
+                userService.updateToDoItem(toDoList, toDoId, toDo.getTitle(), toDo.getDescription(), toDo.getPriority(), toDo.getIsCompleted());
 
                 return ResponseEntity.ok(toDo);
             } else {
@@ -180,7 +184,7 @@ public class UserController {
     }
 
     @DeleteMapping("/todolist/{toDoListId}/todos/{toDoId}")
-    public ResponseEntity<?> deleteToDoItem(
+    public ResponseEntity<ToDo> deleteToDoItem(
             @PathVariable Long toDoListId,
             @PathVariable Long toDoId
     ) {

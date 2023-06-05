@@ -31,15 +31,14 @@ public class ToDo {
     @JoinColumn(name = "list_id", nullable = false)
     private ToDoList list;
 
-    @Builder
-    public ToDo(String title, String description, Long priority, Date dueDate, Date remindDate, LocalDate createdDate, Boolean isCompleted) {
+    public ToDo(String title, String description, Long priority, Date dueDate, Date remindDate) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
         this.createdDate = LocalDate.now();
         this.remindDate = remindDate;
-        this.isCompleted = Boolean.FALSE;
+        this.isCompleted = false;
     }
 
     public void setToDoList(ToDoList toDoList) {
