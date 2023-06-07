@@ -65,7 +65,11 @@ const curUser = {
 
 const App = () => {
   const [token, setToken] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    userID: null,
+    userName: "",
+    userEmail: "",
+  });
 
   const { naver } = window;
   const NAVER_CLIENT_ID = "nuZ04sTeb2LDphCqc4qv"; // client ID
@@ -101,37 +105,39 @@ const App = () => {
   const userEmail = localStorage.getItem("userEmail");
   const username = localStorage.getItem("username");
   const profileImageURL = localStorage.getItem("profile_image");
-  // const userID = userInfo.email;
-  // const username = userInfo.name;
-  // const profileImageURL = userInfo.profile_image;
   const access_token = token;
 
-  const getUserInfo = async (userEmail) => {
+  const getUserInfo = async (email) => {
     try {
-      console.log("try", userEmail);
-      const response = await fetch(`http://localhost:8080/email/${userEmail}`);
-      if (!response) {
-        // if user not found
-        try {
-          // add a new user
-          const newResponse = await fetch(`http://localhost:8080/users`, {
-            method: "POST",
-            header: { "Content-Type": "application/json" },
-            body: JSON.stringify(user),
-          });
-          const newJson = await newResponse.json();
-          console.log(newJson.id);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        // user found
-        const json = await response.json();
-        console.log(json.id); // console.log user id
-        localStorage.setItem("userID", json.id);
-      }
+      const response = await fetch(
+        `http://localhost:8080/users/email/${email}`
+      );
+      const json = await response.json();
+      setUserInfo((userInfo) => ({
+        ...userInfo,
+        userID: json.userID,
+        userName: json.userName,
+        userEmail: json.userEmail,
+      }));
     } catch (error) {
-      console.error(error);
+      try {
+        // add a new user
+        const user = {
+          userName: localStorage.getItem("username"),
+          userEmail: localStorage.getItem("userEmail"),
+        };
+        console.log(userInfo);
+        console.log(JSON.stringify(user));
+        const newResponse = await fetch(`http://localhost:8080/users`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(user),
+        });
+        const newJson = await newResponse.json();
+        console.log(newJson);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -140,22 +146,24 @@ const App = () => {
     getUserInfo(userEmail);
   }, []);
 
+  console.log(userInfo);
+
   const userID = localStorage.getItem("userID");
-  const user = {
-    userID: userID,
-    username: username,
-    profileImageURL: profileImageURL,
-    access_token: access_token,
-  };
-  console.log(user);
-  curUser.userID = user.userID;
+  // const user = {
+  //   userID: userID,
+  //   username: username,
+  //   profileImageURL: profileImageURL,
+  //   access_token: access_token,
+  // };
+  // console.log(user);
+  // curUser.userID = user.userID;
 
   return (
     <Router>
       <Routes>
         <Route
           path="/"
-          element={<Home curUser={user} lists={curUser.lists} />}
+          element={<Home curUser={userInfo} lists={curUser.lists} />}
         />
         <Route path="/login" element={<Login />} />
       </Routes>

@@ -4,10 +4,7 @@ import style from "./Header.css";
 
 const Header = ({ curUser }) => {
   const root = document.documentElement;
-  root.style.setProperty(
-    "--background-image",
-    `url(${curUser.profileImageURL})`
-  );
+  root.style.setProperty("--background-image", `url(${curUser.profile_image})`);
 
   const navigate = useNavigate();
 
@@ -38,9 +35,9 @@ const Header = ({ curUser }) => {
       <div className="user-info">
         <button
           className="user-icon"
-          onClick={() => alert(curUser.username)}
+          onClick={() => alert(curUser.name)}
         ></button>
-        <p>{curUser.username}</p>
+        <p>{curUser.name}</p>
         <div className="naverLogout" onClick={() => NaverLogout()}>
           Sign out
         </div>
