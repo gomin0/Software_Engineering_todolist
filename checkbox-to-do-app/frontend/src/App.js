@@ -108,14 +108,13 @@ const App = () => {
 
   const getUserInfo = async (userEmail) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/userEmail/${userEmail}`
-      );
+      console.log("try", userEmail);
+      const response = await fetch(`http://localhost:8080/email/${userEmail}`);
       if (!response) {
         // if user not found
         try {
           // add a new user
-          const newResponse = await fetch(`http://localhost:8080/user`, {
+          const newResponse = await fetch(`http://localhost:8080/users`, {
             method: "POST",
             header: { "Content-Type": "application/json" },
             body: JSON.stringify(user),
