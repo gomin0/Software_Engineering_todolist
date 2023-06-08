@@ -3,10 +3,17 @@ import Header from "../components/Header";
 import Main from "../components/Main";
 
 const Home = ({ curUser, lists }) => {
+  const isLoaded = curUser.isLoaded;
   return (
     <>
-      <Header curUser={curUser}></Header>
-      <Main curUser={curUser} lists={lists}></Main>
+      {isLoaded ? (
+        <>
+          <Header curUser={curUser}></Header>
+          <Main curUser={curUser} lists={lists}></Main>
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
     </>
   );
 };

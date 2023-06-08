@@ -69,6 +69,7 @@ const App = () => {
     userID: null,
     userName: "",
     userEmail: "",
+    isLoaded: false,
   });
 
   const { naver } = window;
@@ -107,7 +108,7 @@ const App = () => {
   const profileImageURL = localStorage.getItem("profile_image");
   const access_token = token;
 
-  const getUserInfo = async (email) => {
+  async function getUserInfo(email) {
     try {
       const response = await fetch(
         `http://localhost:8080/users/email/${email}`
@@ -121,6 +122,8 @@ const App = () => {
       }));
     } catch (error) {
       try {
+        console.error(error);
+        console.error("I've been fired");
         // add a new user
         const user = {
           userName: localStorage.getItem("username"),
@@ -135,15 +138,24 @@ const App = () => {
         });
         const newJson = await newResponse.json();
         console.log(newJson);
-      } catch (error) {
-        console.error(error);
-      }
+        setUserInfo((userInfo) => ({
+          ...userInfo,
+          userID: newJson.userID,
+          userName: newJson.userName,
+          userEmail: newJson.userEmail,
+        }));
+      } catch (error) {}
     }
-  };
+  }
 
   useEffect(() => {
     callbackNaverLogin();
-    getUserInfo(userEmail);
+    getUserInfo(userEmail).then(() => {
+      setUserInfo((info) => ({
+        ...info,
+        isLoaded: true,
+      }));
+    });
   }, []);
 
   console.log(userInfo);
@@ -161,6 +173,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        <Route
+          path="/"
+          element={<Home curUser={userInfo} lists={curUser.lists} />}
+        />
         <Route
           path="/"
           element={<Home curUser={userInfo} lists={curUser.lists} />}
