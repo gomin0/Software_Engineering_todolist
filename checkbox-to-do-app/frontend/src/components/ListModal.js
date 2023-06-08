@@ -6,13 +6,12 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
 
   const [data, setData] = useState({
     userID: curUser.userID,
-    listID: editMode ? list.id : "",
-    listTitle: editMode ? list.name : "",
+    list_id: editMode ? list.id : null,
+    title: editMode ? list.name : "",
     createdDate: editMode ? list.createdDate : new Date(),
   });
 
   const handleChange = (event) => {
-    console.log(event.target);
     const { name, value } = event.target;
 
     setData((data) => ({
@@ -22,21 +21,26 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
   };
 
   const postList = async (event) => {
-    console.log(data);
     event.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:8080/${curUser.userID}/todolist`,
+        `http://localhost:8080/users/${curUser.userID}/todolist`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json; charset=utf-8" },
           body: JSON.stringify(data),
         }
       );
-      console.log(response);
+      const json = await response.json();
+      console.log(json);
+      setData((data) => ({
+        ...data,
+        list_id: json.list_id,
+      }));
     } catch (error) {
       console.error(error);
     }
+    setShowModal(false);
   };
   // TODO: updateList -> update = PUT
 
@@ -55,8 +59,8 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
               required
               maxLength={20}
               placeholder="add a new list"
-              name="listTitle"
-              value={data.listTitle}
+              name="title"
+              value={data.title}
               onChange={handleChange}
             />
           </form>

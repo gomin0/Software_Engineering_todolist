@@ -8,8 +8,17 @@ import ListModal from "./ListModal";
 const SideBar = ({ curUser, clickList, lists, selected }) => {
   /** request lists info with current user info */
   const sortedLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
-  const getAllLists = () => {
-    sortedLists?.map((list) => getListInfo(list));
+  const getAllLists = async () => {
+    //sortedLists?.map((list) => getListInfo(list));
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/${curUser.userID}/todolist`
+      );
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getListInfo = async (list) => {
@@ -24,7 +33,11 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
       console.error(error);
     }
   };
-  useEffect(() => getAllLists(), []);
+
+  useEffect(() => {
+    getAllLists();
+  });
+
   // TODO: replace lists with getListInfo()
   const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
 
