@@ -5,10 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ListModal from "./ListModal";
 
-const SideBar = ({ curUser, clickList, lists, selected }) => {
+const SideBar = ({ curUser, clickList, selected }) => {
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    getAllLists();
+  }, []);
+
   /** request lists info with current user info */
   const sortedLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
-  const getAllLists = async () => {
+  async function getAllLists() {
     //sortedLists?.map((list) => getListInfo(list));
     try {
       const response = await fetch(
@@ -16,10 +22,11 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
       );
       const json = await response.json();
       console.log(json);
+      setLists(json);
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   const getListInfo = async (list) => {
     try {
@@ -33,10 +40,6 @@ const SideBar = ({ curUser, clickList, lists, selected }) => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    getAllLists();
-  });
 
   // TODO: replace lists with getListInfo()
   const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);

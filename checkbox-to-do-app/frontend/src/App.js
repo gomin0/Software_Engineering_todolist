@@ -158,7 +158,7 @@ const App = () => {
     });
   }, []);
 
-  console.log(userInfo);
+  console.log(userInfo.userID);
 
   const userID = localStorage.getItem("userID");
   // const user = {

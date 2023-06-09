@@ -21,6 +21,10 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
   };
 
   const postList = async (event) => {
+    // console.log(data);
+    const listInfo = {
+      title: data.title,
+    };
     event.preventDefault();
     try {
       const response = await fetch(
@@ -28,7 +32,7 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(data),
+          body: JSON.stringify(listInfo),
         }
       );
       const json = await response.json();
