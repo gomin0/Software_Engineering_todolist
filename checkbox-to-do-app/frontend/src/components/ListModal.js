@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import style from "./ListModal.css";
 
-const ListModal = ({ curUser, mode, setShowModal, list }) => {
+const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
   const editMode = mode === "Modify" ? true : false;
 
   const [data, setData] = useState({
@@ -36,11 +36,12 @@ const ListModal = ({ curUser, mode, setShowModal, list }) => {
         }
       );
       const json = await response.json();
-      console.log(json);
       setData((data) => ({
         ...data,
         list_id: json.list_id,
       }));
+      setLists((oldLists) => [...oldLists, data]);
+      console.log(data);
     } catch (error) {
       console.error(error);
     }

@@ -30,7 +30,7 @@ const List = ({ list, selected, clickList, onClickModify }) => {
               fill="currentColor"
             ></path>
           </svg>
-          <span>{list.name}</span>
+          <span>{list.title}</span>
           <div className="list-edit-div" onClick={onClickModify}>
             <FontAwesomeIcon className="list-edit-btn" icon={faPenToSquare} />
           </div>

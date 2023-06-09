@@ -6,14 +6,14 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ListModal from "./ListModal";
 
 const SideBar = ({ curUser, clickList, selected }) => {
-  const [lists, setLists] = useState([]);
+  const [curLists, setLists] = useState([]);
 
   useEffect(() => {
     getAllLists();
   }, []);
 
   /** request lists info with current user info */
-  const sortedLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
+  //const sortedLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
   async function getAllLists() {
     //sortedLists?.map((list) => getListInfo(list));
     try {
@@ -42,7 +42,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
   };
 
   // TODO: replace lists with getListInfo()
-  const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
+  // const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
 
   const [showModal, setShowModal] = useState(false);
   const [mode, setMode] = useState("");
@@ -54,7 +54,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
 
   const handleModifyButton = (event) => {
     const id = event.target.parentNode.parentNode.parentNode.id;
-    console.log(lists[id]);
+    console.log(curLists[id]);
     setMode("Modify");
     setShowModal(true);
   };
@@ -89,6 +89,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
           curUser={curUser}
           mode={mode}
           setShowModal={setShowModal}
+          setLists={setLists}
           list={selected}
         />
       )}
@@ -109,6 +110,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
               curUser={curUser}
               mode={mode}
               setShowModal={setShowModal}
+              setLists={setLists}
               list={selected}
             />
           )}
