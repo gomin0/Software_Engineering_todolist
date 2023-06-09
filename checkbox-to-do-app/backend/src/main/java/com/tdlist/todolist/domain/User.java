@@ -1,5 +1,6 @@
 package com.tdlist.todolist.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class User {
     private String userEmail;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user") // Ignore serialization of the user field in ToDoList
     private List<ToDoList> toDoLists;
 
 
