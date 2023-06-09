@@ -1,5 +1,6 @@
 package com.tdlist.todolist.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class User {
     private String userEmail;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
     private List<ToDoList> toDoLists;
 
 
@@ -45,7 +47,7 @@ public class User {
 
     public void updateToDoList(ToDoList updatedToDoList) {
         Optional<ToDoList> existingToDoList = toDoLists.stream()
-                .filter(list -> list.getId().equals(updatedToDoList.getId()))
+                .filter(list -> list.getListID().equals(updatedToDoList.getListID()))
                 .findFirst();
 
         existingToDoList.ifPresent(toDoList -> {
@@ -65,7 +67,7 @@ public class User {
 
     public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority, Boolean isCompleted) {
         Optional<ToDo> existingToDoItem = toDoList.getToDoItems().stream()
-                .filter(item -> item.getId().equals(todoId))
+                .filter(item -> item.getTodoID().equals(todoId))
                 .findFirst();
 
         existingToDoItem.ifPresent(item -> {
@@ -76,6 +78,6 @@ public class User {
     }
 
     public void deleteToDoItem(ToDoList toDoList, Long todoId) {
-        toDoList.getToDoItems().removeIf(item -> item.getId().equals(todoId));
+        toDoList.getToDoItems().removeIf(item -> item.getTodoID().equals(todoId));
     }
 }

@@ -94,7 +94,7 @@ public class UserController {
     public ResponseEntity<ToDoList> updateToDoList(@PathVariable Long toDoListId, @RequestBody ToDoList toDoList) {
         Optional<ToDoList> existingToDoList = userService.getToDoListById(toDoListId);
         if (existingToDoList.isPresent()) {
-            toDoList.setId(toDoListId);
+            toDoList.setListID(toDoListId);
             ToDoList updatedToDoList = userService.updateToDoList(toDoList);
             return ResponseEntity.ok(updatedToDoList);
         } else {

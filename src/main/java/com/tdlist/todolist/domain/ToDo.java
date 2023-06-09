@@ -17,7 +17,7 @@ public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "todo_id")
-    private Long id;
+    private Long todoID;
 
     private String title; // 할일 제목
     private String description; // 할일 설명

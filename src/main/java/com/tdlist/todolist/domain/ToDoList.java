@@ -1,5 +1,7 @@
 package com.tdlist.todolist.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +19,7 @@ public class ToDoList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "list_id")
-    private Long id;
+    private Long listID;
 
     private String title; // 리스트 제목
 
@@ -26,6 +28,7 @@ public class ToDoList {
     private User user; // 사용자 정보
 
     @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("todolist")
     private List<ToDo> todos; // 할일 목록
 
 

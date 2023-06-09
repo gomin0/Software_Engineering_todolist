@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserEmail(String email);
 
-    @Query("SELECT tdl FROM User u JOIN u.toDoLists tdl WHERE tdl.id = :toDoListId")
+    @Query("SELECT tdl FROM User u JOIN u.toDoLists tdl WHERE tdl.listID = :toDoListId")
     Optional<ToDoList> findToDoListById(Long toDoListId);
 
-    @Query("SELECT td FROM User u JOIN u.toDoLists tdl JOIN tdl.todos td WHERE td.id = :toDoId")
+    @Query("SELECT td FROM User u JOIN u.toDoLists tdl JOIN tdl.todos td WHERE td.todoID = :toDoId")
     Optional<ToDo> findToDoById(Long toDoId);
 }
