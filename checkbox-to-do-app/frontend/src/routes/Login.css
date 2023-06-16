@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Alata', sans-serif;
+}
+
+.page-container{
+    width: 100vw;
+    height: 100vh;
+    background: #eff0f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.shadow{
+    -webkit-box-shadow: 27px 43px 43px -26px rgba(89,89,89,0.39);
+    -moz-box-shadow: 27px 43px 43px -26px rgba(89,89,89,0.39);
+    box-shadow: 27px 43px 43px -26px rgba(89,89,89,0.39);
+}
+
+/*
+.shadow-light{
+    -webkit-box-shadow: 45px 45px 104px -33px rgba(38,38,38,0.92);
+    -moz-box-shadow: 45px 45px 104px -33px rgba(38,38,38,0.92);
+    box-shadow: 45px 45px 104px -33px rgba(38,38,38,0.92);
+
+}*/
+
+.login-form-container{
+ 
+    background:#f5f5f5 ;
+    width:860px;
+    height: 540px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 10px black;
+    border-radius: 10px;
+
+}
+.login-form-left-side{
+    width: 50%; 
+    border-radius: 10px 0px 0px 10px;
+    padding : 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: 
+    radial-gradient(ellipse farthest-corner at 0 120%,  #e9b4a5 0%, #de483a 70%, #ed7166 70%);
+}
+.login-form-left-side h1{
+    color: white;
+    width: 100%;
+    text-align: right;
+    opacity: 0.9;
+}
+
+.login-form-left-side p{
+    padding-top: 40px;
+    color: white;
+    font-size: 15px;
+    text-align: right;
+    opacity: 0.8;
+}
+
+
+.login-form-right-side{
+    width: 50%;
+    border-radius: 0px 10px 10px 0px;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(255,255,255);
+    background: linear-gradient(287deg, rgba(255,255,255,1) 0%, rgba(243,244,244,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+
+
+.title {
+    font-family: 'Oswald', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    text-align: center;
+    margin : 50px;
+    font-weight: bold;
+    color: #de483a;
+    text-shadow: 3px 3px #a4bfe0;
+    text-decoration: overline underline;
+    text-underline-offset : 8px;
+    text-decoration-style: dotted;
+}
+
+.to-right-line{
+    position: relative;
+  }
+  .to-right-line:after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 26px;
+    width: 0px;
+    height: 3px;
+    margin: 5px 0 0;
+    transition: all 0.2s ease-in-out;
+    transition-duration: 0.5s;
+    opacity: 0;
+    background-color: #71ba7e;
+  }
+  .to-right-line:hover:after{
+    width: 100%;
+    opacity: 0.9;
+  }
+
+
+.login-btn{
+    display: flex;
+    justify-content: center;
+    padding-top:70px;
+    width:300px;
+}

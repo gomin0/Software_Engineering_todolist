@@ -1,0 +1,49 @@
+.inbox {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 80vw;
+  padding: 30px 60px;
+}
+
+.list-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  font-size: 1rem;
+  width: 83%;
+}
+
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.add-todo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: unset;
+  margin: 20px 0 0 20px;
+  gap: 10px;
+
+  font-size: 1rem;
+  color: grey;
+}
+
+.add-todo:hover {
+  color: rgb(219, 76, 63);
+}
+
+.add-todo:hover .add-todo-btn {
+  background-color: rgb(219, 76, 63);
+  color: white;
+}
+
+.add-todo-btn {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
