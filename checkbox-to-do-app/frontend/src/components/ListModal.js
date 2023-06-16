@@ -93,7 +93,7 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
   };
 
   return (
-    <div className="overlay">
+    <div>
       <div className="list-modal">
         <div className="list-modal-top">
           <h3>{mode} a list</h3>
@@ -123,6 +123,7 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
           </button>
         </div>
       </div>
+      <div className="overlay" onClick={() => setShowModal(false)}></div>
     </div>
   );
 };

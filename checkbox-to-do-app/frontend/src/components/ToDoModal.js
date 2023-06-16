@@ -79,6 +79,9 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
   return (
     <div>
       <div className="todo-modal">
+        <div className="todo-modal-top">
+          <h3>{mode} a To-Do</h3>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="form-inputs">
             <input
@@ -101,18 +104,20 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
             />
           </div>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Remind me on"
-              value={date}
-              onChange={(newDate) => handleDate(newDate)}
-            />
-            <TimePicker
-              label="Remind me at"
-              value={time}
-              onChange={(newTime) => handleTime(newTime)}
-            />
-          </LocalizationProvider>
+          <div className="reminder-div">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Remind me on"
+                value={date}
+                onChange={(newDate) => handleDate(newDate)}
+              />
+              <TimePicker
+                label="Remind me at"
+                value={time}
+                onChange={(newTime) => handleTime(newTime)}
+              />
+            </LocalizationProvider>
+          </div>
 
           <div className="submit-contatiner">
             <button

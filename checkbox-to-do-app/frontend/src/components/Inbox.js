@@ -47,8 +47,8 @@ const Inbox = ({ curList }) => {
   };
 
   useEffect(() => {
-    handleNormalMenu();
     handleCompleteMenu();
+    handleNormalMenu();
   }, []);
 
   const getToDosInfo = async (curList) => {
@@ -106,7 +106,11 @@ const Inbox = ({ curList }) => {
         <h2>{curList.name}</h2>
         <Dropdown
           open={open}
-          trigger={<button onClick={handleOpen}>Option</button>}
+          trigger={
+            <button className="opt-btn" onClick={handleOpen}>
+              Option
+            </button>
+          }
           menu={[
             <button onClick={handleNormalMenu}>Normal View</button>,
             <button onClick={handleCompleteMenu}>Completed Tasks</button>,
