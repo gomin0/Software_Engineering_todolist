@@ -6,10 +6,12 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ListModal from "./ListModal";
 
 const SideBar = ({ curUser, clickList, selected }) => {
+  const [current, setCurrent] = useState(selected);
   const [curLists, setLists] = useState([]);
 
   useEffect(() => {
     getAllLists();
+    setLists();
   }, []);
 
   /** request lists info with current user info */
@@ -44,6 +46,10 @@ const SideBar = ({ curUser, clickList, selected }) => {
   // TODO: replace lists with getListInfo()
   // const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
 
+  function findElementByID(array, id) {
+    return array.find((element) => element.id == id);
+  }
+
   const [showModal, setShowModal] = useState(false);
   const [mode, setMode] = useState("");
 
@@ -53,20 +59,23 @@ const SideBar = ({ curUser, clickList, selected }) => {
   };
 
   const handleModifyButton = (event) => {
-    const id = event.target.parentNode.parentNode.parentNode.id;
-    console.log(curLists[id]);
+    const id = event.target.id;
+    console.log(event.target);
+    const list = findElementByID(curLists, id);
+    setCurrent(list);
     setMode("Modify");
     setShowModal(true);
   };
 
   const handleDeleteButton = async (event) => {
-    const id = event.target.parentNode.parentNode.parentNode.id;
-    if (window.confirm("Delete list ${curLists[id]}.listTitle}?")) {
+    const id = event.target.id;
+    const list = curLists.find((e) => e.id == id);
+
+    if (window.confirm(`Delete list "${list.title}"?`)) {
       try {
         const response = await fetch(`http://localhost:8080/todolist/${id}`, {
           method: "DELETE",
           header: { "Content-Type": "application/json" },
-          body: JSON.stringify(id),
         });
       } catch (error) {
         console.error(error);
@@ -90,7 +99,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
           mode={mode}
           setShowModal={setShowModal}
           setLists={setLists}
-          list={selected}
+          list={current}
         />
       )}
 
@@ -101,6 +110,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
               key={list.id}
               clickList={clickList}
               onClickModify={handleModifyButton}
+              onClickDelete={handleDeleteButton}
               list={list}
               selected={selected}
             />
@@ -111,7 +121,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
               mode={mode}
               setShowModal={setShowModal}
               setLists={setLists}
-              list={selected}
+              list={current}
             />
           )}
         </ul>

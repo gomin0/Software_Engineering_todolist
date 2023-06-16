@@ -59,10 +59,8 @@
   height: 24px;
 }
 
-.list-edit-div {
+.list-btn-div {
   display: flex;
-  width: 25px;
-  height: 25px;
   margin-left: auto;
   margin-right: 10px;
   border-radius: 5px;
@@ -70,8 +68,22 @@
   justify-content: center;
 }
 
+.div-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+}
+
+.div-btn:hover {
+  background-color: red;
+}
+
 .list-edit-btn {
   opacity: 0.6;
+  width: 15px;
+  height: 15px;
 }
 
 .list-edit-div:hover .list-edit-btn {
