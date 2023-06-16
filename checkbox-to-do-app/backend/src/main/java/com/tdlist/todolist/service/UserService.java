@@ -53,6 +53,8 @@ public class UserService {
         ToDoList toDoList = new ToDoList(title);
         toDoList.setUser(user);
         user.addToDoList(toDoList);
+        toDoList = toDoListRepository.save(toDoList);
+        user.addToDoList(toDoList);
         userRepository.save(user);
         return toDoList;
     }
