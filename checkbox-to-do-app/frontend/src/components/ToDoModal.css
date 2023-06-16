@@ -23,11 +23,17 @@
 
 .todo-modal-top {
   display: flex;
+  flex-direction: column;
   background-color: #fafafa;
   padding: 25px;
+  gap: 5px;
   border-bottom: 1px solid #ddd;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.todo-list-title {
+  color: #515151;
 }
 
 .form-inputs {

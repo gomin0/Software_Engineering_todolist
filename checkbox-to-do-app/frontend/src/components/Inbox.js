@@ -7,19 +7,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Inbox = ({ curList }) => {
-  const curTodos = curList.todos.map((todo) => ({ ...todo, key: todo.id }));
-  const [curToDos, setCurToDos] = useState(curTodos);
+  // const curTodos = curList.todos?.map((todo) => ({ ...todo, key: todo.id }));
+  const todos = curList.todos;
+  const [curToDos, setCurToDos] = useState(todos);
 
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("");
+
+  useEffect(() => {
+    handleCompleteMenu();
+    handleNormalMenu();
+    getToDosInfo();
+  }, []);
+
+  const getToDosInfo = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/todolist/${curList.id}/todos`
+      );
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleOpen = () => {
     setOpen(!open);
   };
 
   const filterCompleted = () => {
-    const todos = curList.todos;
+    if (!todos) {
+      return;
+    }
     const completedToDos = todos.filter((todo) => {
       return todo.isCompleted;
     });
@@ -27,7 +48,7 @@ const Inbox = ({ curList }) => {
   };
 
   const handleNormalMenu = () => {
-    setCurToDos(curTodos);
+    setCurToDos(curToDos);
     setOpen(false);
   };
 
@@ -45,25 +66,6 @@ const Inbox = ({ curList }) => {
     alert("Due");
     setOpen(false);
   };
-
-  useEffect(() => {
-    handleCompleteMenu();
-    handleNormalMenu();
-  }, []);
-
-  const getToDosInfo = async (curList) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/${curList.userID}/${curList.listID}`
-      );
-      const json = await response.json();
-      console.log(json);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  //useEffect(() => getToDosInfo(curList), []);
 
   const handleCreateButton = () => {
     setMode("Create");
@@ -103,7 +105,7 @@ const Inbox = ({ curList }) => {
   return (
     <div className="inbox">
       <div className="list-name" style={style}>
-        <h2>{curList.name}</h2>
+        <h2>{curList.title}</h2>
         <Dropdown
           open={open}
           trigger={
@@ -134,6 +136,7 @@ const Inbox = ({ curList }) => {
             <ToDoModal
               curList={curList}
               setShowModal={setShowModal}
+              setCurToDos={setCurToDos}
               todo={curToDos} // 이거 이대로 둬도되나
               mode={mode}
             />
@@ -150,6 +153,7 @@ const Inbox = ({ curList }) => {
         <ToDoModal
           curList={curList}
           setShowModal={setShowModal}
+          setCurToDos={setCurToDos}
           todo={curToDos} // 이거 이대로 둬도되나
           mode={mode}
         />

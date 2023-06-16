@@ -6,7 +6,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
-const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
+const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
+  const curUser = curList.user;
   const editMode = mode === "Modify" ? true : false;
 
   const [title, setTitle] = useState("");
@@ -18,13 +19,15 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
   const [time, setTime] = useState(null);
 
   const [data, setData] = useState({
-    userID: curList.userID,
-    todoID: editMode ? todo.id : "",
-    todoTitle: editMode ? todo.name : "",
-    todoContent: editMode ? todo.description : "",
+    userID: curUser.userID,
+    todo_id: editMode ? todo.id : "",
+    title: editMode ? todo.name : "",
+    description: editMode ? todo.description : "",
     createdDate: editMode ? todo.createdDate : new Date(),
     remindDate: editMode ? todo.remindDate : date,
     remindTime: editMode ? todo.remindTime : time,
+    isCompleted: editMode ? todo.isCompleted : false,
+    priority: editMode ? todo.priority : null,
   });
 
   const handleTitleChange = (e) => {
@@ -43,7 +46,6 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
       ...data,
       [name]: value,
     }));
-    console.log(name, value);
   };
 
   const activateReminder = () => {
@@ -66,13 +68,45 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const postToDo = async (e) => {
+    const todoInfo = {
+      title: data.todoTitle,
+      description: data.todoContent,
+    };
+
     e.preventDefault();
-    // 입력된 제목과 내용을 활용하여 원하는 작업 수행
-    // 예: 서버로 전송, 상태 업데이트 등
-    // console.log("제목:", title);
-    // console.log("내용:", content);
-    // // 모달 닫기
+
+    console.log(data);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/todolist/${curList.id}/todos`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(data),
+        }
+      );
+      const json = await response.json();
+      console.log(json);
+
+      setData((data) => ({
+        ...data,
+        todo_id: json.todo_id,
+      }));
+
+      setCurToDos((oldToDos) => [...oldToDos, data]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateToDo = (e) => {
+    e.preventDefault();
+  };
+
+  const handleSubmit = (e) => {
+    mode == "Modify" ? updateToDo(e) : postToDo(e);
+    setShowModal(false);
     console.log(data);
   };
 
@@ -81,6 +115,7 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
       <div className="todo-modal">
         <div className="todo-modal-top">
           <h3>{mode} a To-Do</h3>
+          <div className="todo-list-title">{curList.title}</div>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-inputs">
@@ -88,17 +123,16 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
               type="text"
               maxLength={20}
               placeholder="Task Name"
-              name="todoTitle"
+              name="title"
               value={title}
               onChange={handleTitleChange}
-              maxlength="20"
               autoFocus
             />
             <input
               type="text"
               maxLength={20}
               placeholder="Description"
-              name="todoContent"
+              name="description"
               value={content}
               onChange={handleContentChange}
             />
@@ -127,7 +161,7 @@ const ToDoModal = ({ curList, todo, mode, setShowModal }) => {
               Cancel
             </button>
             <button className="button-add" type="submit" disabled={!title}>
-              Add task
+              {mode} task
             </button>
           </div>
         </form>

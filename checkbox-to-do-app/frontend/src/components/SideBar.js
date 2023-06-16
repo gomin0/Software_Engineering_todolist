@@ -5,24 +5,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ListModal from "./ListModal";
 
-const SideBar = ({ curUser, curLists, clickList, selectedList, setLists }) => {
+const SideBar = ({
+  curUser,
+  curLists,
+  clickList,
+  selectedList,
+  setSelect,
+  setLists,
+}) => {
+  const [updatedLists, setUpdatedLists] = useState(curLists);
+
+  useEffect(() => {
+    console.log(curLists);
+    // setLists((oldLists) => [...oldLists, updatedList]);
+    setLists(updatedLists);
+    console.log(updatedLists);
+  }, [updatedLists]);
+
   const [current, setCurrent] = useState(selectedList);
-
-  const getListInfo = async (list) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/${curUser.userEmail}/${list.listID}`
-      );
-      const json = await response.json();
-      console.log(json);
-      // TODO: print out each list info
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // TODO: replace lists with getListInfo()
-  // const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
 
   function findElementByID(array, id) {
     return array.find((element) => element.id == id);
@@ -81,7 +81,9 @@ const SideBar = ({ curUser, curLists, clickList, selectedList, setLists }) => {
           curUser={curUser}
           mode={mode}
           setShowModal={setShowModal}
-          setLists={setLists}
+          setLists={setUpdatedLists}
+          // setLists={setLists}
+          setSelect={setSelect}
           list={current}
         />
       )}
@@ -91,11 +93,11 @@ const SideBar = ({ curUser, curLists, clickList, selectedList, setLists }) => {
           {curLists?.map((list) => (
             <List
               key={list.id}
+              list={list}
               clickList={clickList}
+              selectedList={selectedList}
               onClickModify={handleModifyButton}
               onClickDelete={handleDeleteButton}
-              list={list}
-              selectedList={selectedList}
             />
           ))}
           {showModal && (
@@ -103,7 +105,9 @@ const SideBar = ({ curUser, curLists, clickList, selectedList, setLists }) => {
               curUser={curUser}
               mode={mode}
               setShowModal={setShowModal}
-              setLists={setLists}
+              setLists={setUpdatedLists}
+              // setLists={setLists}
+              setSelect={setSelect}
               list={current}
             />
           )}
