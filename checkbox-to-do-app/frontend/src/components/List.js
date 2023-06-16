@@ -2,8 +2,14 @@ import styles from "./Button.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const List = ({ list, selected, clickList, onClickModify, onClickDelete }) => {
-  const isSelected = selected.id === list.id;
+const List = ({
+  list,
+  selectedList,
+  clickList,
+  onClickModify,
+  onClickDelete,
+}) => {
+  const isSelected = selectedList.id === list.id;
 
   // const handleListClick = (event) => {
   //   const selectedID = event.target.id;
@@ -21,7 +27,7 @@ const List = ({ list, selected, clickList, onClickModify, onClickDelete }) => {
               ? `${styles.Button} ${styles.ButtonSelected}`
               : styles.Button
           }
-          selected
+          selectedList
           onClick={clickList}
         >
           <svg id={list.id} className="list-icon" viewBox="0 0 24 24">
