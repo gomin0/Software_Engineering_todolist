@@ -77,7 +77,8 @@
 }
 
 .div-btn:hover {
-  background-color: red;
+  border-radius: 3px;
+  background-color: rgb(240, 240, 240);
 }
 
 .list-edit-btn {

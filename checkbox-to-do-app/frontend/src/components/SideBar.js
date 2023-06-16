@@ -5,30 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ListModal from "./ListModal";
 
-const SideBar = ({ curUser, clickList, selected }) => {
-  const [current, setCurrent] = useState(selected);
-  const [curLists, setLists] = useState([]);
-
-  useEffect(() => {
-    getAllLists();
-    setLists();
-  }, []);
-
-  /** request lists info with current user info */
-  //const sortedLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
-  async function getAllLists() {
-    //sortedLists?.map((list) => getListInfo(list));
-    try {
-      const response = await fetch(
-        `http://localhost:8080/users/${curUser.userID}/todolist`
-      );
-      const json = await response.json();
-      console.log(json);
-      setLists(json);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+const SideBar = ({ curUser, curLists, clickList, selectedList, setLists }) => {
+  const [current, setCurrent] = useState(selectedList);
 
   const getListInfo = async (list) => {
     try {
@@ -117,7 +95,7 @@ const SideBar = ({ curUser, clickList, selected }) => {
               onClickModify={handleModifyButton}
               onClickDelete={handleDeleteButton}
               list={list}
-              selected={selected}
+              selectedList={selectedList}
             />
           ))}
           {showModal && (
