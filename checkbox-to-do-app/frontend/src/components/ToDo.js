@@ -10,9 +10,10 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
   const updateChecked = async () => {
     setIsChecked((prev) => !prev);
     todo.isCompleted = !isChecked;
+    console.log(todo);
     try {
       const response = await fetch(
-        `http://localhost:8080/todolist/${todo.listID}/todos/${todo.id}`,
+        `http://localhost:8080/users/todolist/${todo.list.id}/todos/${todo.id}?completed=${todo.isCompleted}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
