@@ -238,7 +238,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
               <DatePicker
                 label="Until"
-                value={data.dueDate}
+                value={dayjs(data.dueDate)}
                 onChange={(newDate) => handleDate(newDate)}
               />
 

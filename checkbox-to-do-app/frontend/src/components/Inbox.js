@@ -48,16 +48,15 @@ const Inbox = ({ curList }) => {
 
   useEffect(() => {
     const latest = curToDos[curToDos.length - 1];
-    console.log(latest);
-
-    // setViewToDos((prev) => [...(prev || []), latest]);
 
     if (viewOption == "NormalView") {
       normalView();
-    } else if (viewOption == "CompletedOnlyView") {
+    } else if (viewOption === "CompletedOnlyView") {
       completedOnlyView();
-    } else if (viewOption == "PriorityView") {
+    } else if (viewOption === "PriorityView") {
       priorityView();
+    } else if (viewOption === "DueDateView") {
+      dueDateView();
     }
   }, [curToDos, viewOption]);
 
@@ -66,15 +65,12 @@ const Inbox = ({ curList }) => {
   };
 
   const normalView = () => {
-    console.log("Normal Mode");
     const normalToDos = curToDos.sort((a, b) => a.id - b.id);
-    console.log(normalToDos);
 
     setViewToDos(normalToDos);
   };
 
   const completedOnlyView = () => {
-    console.log("Comp Mode");
     if (!curToDos) {
       return;
     }
@@ -88,7 +84,6 @@ const Inbox = ({ curList }) => {
   };
 
   const priorityView = () => {
-    console.log("Priority Mode");
     if (!curToDos) {
       return;
     }
@@ -102,6 +97,27 @@ const Inbox = ({ curList }) => {
     console.log(prioritySortedToDos);
 
     setViewToDos(prioritySortedToDos);
+  };
+
+  const dueDateView = () => {
+    if (!curToDos) {
+      return;
+    }
+
+    console.log(curToDos);
+    const sortedToDos = [...curToDos].sort((a, b) => {
+      if (a.dueDate === null && b.dueDate === null) {
+        return 0;
+      } else if (a.dueDate === null) {
+        return 1;
+      } else if (b.dueDate === null) {
+        return -1;
+      } else {
+        return new Date(a.dueDate) - new Date(b.dueDate);
+      }
+    });
+
+    setViewToDos(sortedToDos);
   };
 
   const handleCreateButton = () => {
@@ -165,6 +181,7 @@ const Inbox = ({ curList }) => {
             <MenuItem value={"NormalView"}>Normal</MenuItem>
             <MenuItem value={"CompletedOnlyView"}>Completed</MenuItem>
             <MenuItem value={"PriorityView"}>Priority</MenuItem>
+            <MenuItem value={"DueDateView"}>Due Date</MenuItem>
           </Select>
         </FormControl>
       </div>
