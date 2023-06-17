@@ -43,6 +43,7 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
   };
 
   const [formattedDate, setFormattedDate] = useState("");
+  const [isOutdated, setIsOutdated] = useState(false);
 
   const dueDateConvert = () => {
     if (todo.dueDate === null) {
@@ -54,6 +55,11 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
         month: "short",
         year: "2-digit",
       });
+
+      if (date < new Date()) {
+        setIsOutdated(true);
+      }
+
       setFormattedDate(newDate);
     }
   };
@@ -97,7 +103,13 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
         <p>{todo.description}</p>
       </div>
 
-      <div className="todo-due-date">{formattedDate}</div>
+      <div
+        className={`todo-due-date ${isChecked ? "checked" : ""} ${
+          isOutdated ? "outdated" : ""
+        }`}
+      >
+        {formattedDate}
+      </div>
     </button>
   );
 };

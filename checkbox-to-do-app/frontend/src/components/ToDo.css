@@ -68,6 +68,15 @@
   padding-left: 30px;
 }
 
+.todo-due-date.outdated {
+  color: rgb(219, 76, 63);
+}
+
+.todo-due-date.checked {
+  color: grey;
+  text-decoration: line-through;
+}
+
 .todo-edit {
   display: flex;
   justify-content: center;
