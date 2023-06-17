@@ -77,7 +77,4 @@ public class User {
         });
     }
 
-    public void deleteToDoItem(ToDoList toDoList, Long todoId) {
-        toDoList.getToDoItems().removeIf(item -> item.getId().equals(todoId));
-    }
 }

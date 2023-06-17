@@ -6,8 +6,8 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
 
   const [data, setData] = useState({
     userID: curUser.userID,
-    list_id: editMode ? list.id : null,
-    title: editMode ? list.name : "",
+    id: editMode ? list.id : null,
+    title: editMode ? list.title : "",
     createdDate: editMode ? list.createdDate : new Date(),
   });
 
@@ -21,11 +21,12 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
   };
 
   const postList = async (event) => {
-    // console.log(data);
     const listInfo = {
       title: data.title,
     };
+
     event.preventDefault();
+
     try {
       const response = await fetch(
         `http://localhost:8080/users/${curUser.userID}/todolist`,
@@ -36,21 +37,71 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
         }
       );
       const json = await response.json();
+      console.log(json.id);
+
       setData((data) => ({
         ...data,
-        list_id: json.list_id,
+        id: json.id,
       }));
-      setLists((oldLists) => [...oldLists, data]);
+
+      setLists((oldLists) => [...oldLists, { ...data, id: json.id }]);
+      // setLists(() => ({
+      //   ...data,
+      //   id: json.id,
+      // }));
       console.log(data);
     } catch (error) {
       console.error(error);
     }
     setShowModal(false);
   };
-  // TODO: updateList -> update = PUT
+
+  const updateList = async (event) => {
+    event.preventDefault();
+    const listID = data.id;
+    const listTitle = data.title;
+    const listInfo = {
+      userID: curUser.userID,
+      title: listTitle,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/todolist/${listID}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(listInfo),
+        }
+      );
+      const json = await response.json();
+      console.log(json);
+      setData((data) => ({
+        ...data,
+        title: json.title,
+      }));
+      console.log(data);
+
+      // NOTE: make sure it works...
+      // ...oldLists, [new]
+      setLists((oldLists) => {
+        return oldLists.map((item) =>
+          item.id == listID ? { ...item, title: listTitle } : item
+        );
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+    setShowModal(false);
+  };
+
+  const handleSubmit = (event) => {
+    editMode ? updateList(event) : postList(event);
+  };
 
   return (
-    <div className="overlay">
+    <div>
       <div className="list-modal">
         <div className="list-modal-top">
           <h3>{mode} a list</h3>
@@ -75,11 +126,12 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
           <button className="cancel-btn" onClick={() => setShowModal(false)}>
             Cancel
           </button>
-          <button className="submit-btn" onClick={postList}>
+          <button className="submit-btn" onClick={handleSubmit}>
             Submit
           </button>
         </div>
       </div>
+      <div className="overlay" onClick={() => setShowModal(false)}></div>
     </div>
   );
 };

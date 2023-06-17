@@ -5,120 +5,190 @@ import ToDo from "./ToDo";
 import ToDoModal from "./ToDoModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Inbox = ({ curList }) => {
-  const curTodos = curList.todos.map((todo) => ({ ...todo, key: todo.id }));
-  const [curToDos, setCurToDos] = useState(curTodos);
+  // const curTodos = curList.todos?.map((todo) => ({ ...todo, key: todo.id }));
+  const todos = curList.todos;
+  const [curToDos, setCurToDos] = useState(todos);
+  const [viewToDos, setViewToDos] = useState(null);
 
+  const [current, setCurrent] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("");
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-
-  const filterCompleted = () => {
-    const todos = curList.todos;
-    const completedToDos = todos.filter((todo) => {
-      return todo.isCompleted;
-    });
-    setCurToDos(completedToDos);
-  };
-
-  const handleNormalMenu = () => {
-    setCurToDos(curTodos);
-    setOpen(false);
-  };
-
-  const handleCompleteMenu = () => {
-    // show completed todos only
-    filterCompleted();
-    setOpen(false);
-  };
-  const handlePriorityMenu = () => {
-    alert("Prio");
-    setOpen(false);
-  };
-
-  const handleDueDateMenu = () => {
-    alert("Due");
-    setOpen(false);
-  };
+  const [viewOption, setViewOption] = useState("NormalView");
 
   useEffect(() => {
-    handleNormalMenu();
-    handleCompleteMenu();
-  }, []);
+    getToDosInfo();
+  }, [curList]);
 
-  const getToDosInfo = async (curList) => {
+  useEffect(() => {
+    if (curToDos.length > 0) {
+      setCurrent(curToDos[curToDos.length - 1]);
+    }
+    // setViewToDos(curToDos);
+  }, [curList, curToDos]);
+
+  const getToDosInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/${curList.userID}/${curList.listID}`
+        `http://localhost:8080/users/todolist/${curList.id}/todos`
       );
       const json = await response.json();
-      console.log(json);
+
+      setCurToDos(json);
     } catch (error) {
       console.error(error);
     }
   };
 
-  //useEffect(() => getToDosInfo(curList), []);
+  useEffect(() => {
+    const latest = curToDos[curToDos.length - 1];
+
+    if (viewOption == "NormalView") {
+      normalView();
+    } else if (viewOption === "CompletedOnlyView") {
+      completedOnlyView();
+    } else if (viewOption === "PriorityView") {
+      priorityView();
+    } else if (viewOption === "DueDateView") {
+      dueDateView();
+    }
+  }, [curToDos, viewOption]);
+
+  const handleViewOptions = (event) => {
+    setViewOption(event.target.value);
+  };
+
+  const normalView = () => {
+    const normalToDos = curToDos.sort((a, b) => a.id - b.id);
+
+    setViewToDos(normalToDos);
+  };
+
+  const completedOnlyView = () => {
+    if (!curToDos) {
+      return;
+    }
+
+    const completedToDos = curToDos.filter((todo) => {
+      return todo.isCompleted;
+    });
+    console.log(completedToDos);
+
+    setViewToDos(completedToDos);
+  };
+
+  const priorityView = () => {
+    if (!curToDos) {
+      return;
+    }
+
+    const prioritySortedToDos = [...curToDos].sort((a, b) => {
+      if (a.priority === null) return 1;
+      if (b.priority === null) return -1;
+
+      return a.priority - b.priority;
+    });
+    console.log(prioritySortedToDos);
+
+    setViewToDos(prioritySortedToDos);
+  };
+
+  const dueDateView = () => {
+    if (!curToDos) {
+      return;
+    }
+
+    console.log(curToDos);
+    const sortedToDos = [...curToDos].sort((a, b) => {
+      if (a.dueDate === null && b.dueDate === null) {
+        return 0;
+      } else if (a.dueDate === null) {
+        return 1;
+      } else if (b.dueDate === null) {
+        return -1;
+      } else {
+        return new Date(a.dueDate) - new Date(b.dueDate);
+      }
+    });
+
+    setViewToDos(sortedToDos);
+  };
 
   const handleCreateButton = () => {
     setMode("Create");
     setShowModal(true);
-    // 8080번 포트로 POST 호출
   };
 
   const handleModifyButton = (event) => {
-    const id = event.target.parentNode.parentNode.parentNode.id;
-    console.log(curList[id]);
-    setMode("Modify");
-    setShowModal(true);
-    // 8080번 포트로 PUT 호출
+    const id = event.target.id;
+    const element = curToDos?.find((e) => e.id == id);
+    if (element) {
+      setCurrent(element);
+      console.log(element);
+      setMode("Modify");
+      setShowModal(true);
+    }
   };
 
-  const deleteToDo = async (curList, id) => {
+  const deleteToDo = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/todolist/${curList.listID}/todos/${id}`,
+      await fetch(
+        `http://localhost:8080/users/todolist/${curList.id}/todos/${current.id}`,
         {
           method: "DELETE",
           header: { "Content-Type": "application/json" },
         }
       );
+
+      setCurToDos((oldToDos) => {
+        //TODO: find and delete
+        return oldToDos.filter((element) => element.id != id);
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleDeleteButton = (event) => {
-    const id = event.target.parentElement.parentElement.parentElement.id;
-    console.log(id);
-    // 8080번 포트로 DELETE 호출
-    deleteToDo(curList, id);
+    const id = event.target.id;
+    const element = curToDos?.find((e) => e.id == id);
+    if (element) {
+      setCurrent(element);
+      if (window.confirm(`Delete To-Do "${element.title}"?`)) {
+        deleteToDo(id);
+      }
+    }
   };
 
   return (
     <div className="inbox">
       <div className="list-name" style={style}>
-        <h2>{curList.name}</h2>
-        <Dropdown
-          open={open}
-          trigger={<button onClick={handleOpen}>Option</button>}
-          menu={[
-            <button onClick={handleNormalMenu}>Normal View</button>,
-            <button onClick={handleCompleteMenu}>Completed Tasks</button>,
-            <button onClick={handlePriorityMenu}>Menu 1</button>,
-            <button onClick={handleDueDateMenu}>Menu 2</button>,
-          ]}
-        />
+        <h2>{curList.title}</h2>
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <Select
+            value={viewOption}
+            onChange={handleViewOptions}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+            style={{ height: 30 }}
+          >
+            <MenuItem value={"NormalView"}>Normal</MenuItem>
+            <MenuItem value={"CompletedOnlyView"}>Completed</MenuItem>
+            <MenuItem value={"PriorityView"}>Priority</MenuItem>
+            <MenuItem value={"DueDateView"}>Due Date</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       <div className="toDo-container">
         <ul className="todos">
-          {curToDos?.map((todo) => (
+          {viewToDos?.map((todo) => (
             <ToDo
               onClickModify={handleModifyButton}
               onClickDelete={handleDeleteButton}
@@ -130,7 +200,9 @@ const Inbox = ({ curList }) => {
             <ToDoModal
               curList={curList}
               setShowModal={setShowModal}
-              todo={curToDos} // 이거 이대로 둬도되나
+              setCurToDos={setCurToDos}
+              setCurrent={setCurrent}
+              todo={current}
               mode={mode}
             />
           )}
@@ -146,7 +218,9 @@ const Inbox = ({ curList }) => {
         <ToDoModal
           curList={curList}
           setShowModal={setShowModal}
-          todo={curToDos} // 이거 이대로 둬도되나
+          setCurToDos={setCurToDos}
+          setCurrent={setCurrent}
+          todo={current}
           mode={mode}
         />
       )}

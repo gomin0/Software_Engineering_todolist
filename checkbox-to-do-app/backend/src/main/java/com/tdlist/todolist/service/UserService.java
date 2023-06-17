@@ -4,11 +4,11 @@ import com.tdlist.todolist.domain.ToDo;
 import com.tdlist.todolist.domain.User;
 import com.tdlist.todolist.domain.ToDoList;
 import com.tdlist.todolist.repository.ToDoListRepository;
+import com.tdlist.todolist.repository.ToDoRepository;
 import com.tdlist.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +19,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ToDoListRepository toDoListRepository;
+    private final ToDoRepository toDoRepository;
 
-    public UserService(UserRepository userRepository, ToDoListRepository toDoListRepository) {
+    public UserService(UserRepository userRepository, ToDoListRepository toDoListRepository, ToDoRepository toDoRepository) {
         this.userRepository = userRepository;
         this.toDoListRepository = toDoListRepository;
+        this.toDoRepository = toDoRepository;
     }
 
     public User registerUser(User user) {
@@ -63,30 +65,31 @@ public class UserService {
         return user.getToDoLists();
     }
 
-    public ToDoList updateToDoList(ToDoList toDoList) {
-        User user = toDoList.getUser();
-        if (user != null) {
-            user.updateToDoList(toDoList);
-            userRepository.save(user);
+    public ToDoList updateToDoList(Long toDoListId, ToDoList updatedToDoList) {
+        Optional<ToDoList> existingToDoList = toDoListRepository.findById(toDoListId);
+        if (existingToDoList.isPresent()) {
+            ToDoList toDoList = existingToDoList.get();
+            toDoList.setTitle(updatedToDoList.getTitle());
+            // 기타 업데이트할 필드들에 대한 처리
+
+            return toDoListRepository.save(toDoList);
+        } else {
+            return null;
         }
-
-        // toDoList 엔티티를 업데이트하는 코드
-        ToDoList updatedToDoList = toDoListRepository.save(toDoList);
-
-        return updatedToDoList;
     }
 
     public void deleteToDoList(ToDoList toDoList) {
         User user = toDoList.getUser();
         user.getToDoLists().remove(toDoList);
         userRepository.save(user);
+        toDoListRepository.delete(toDoList);
     }
 
     public ToDoList createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate) {
         User user = toDoList.getUser();
-        user.addToDoItem(toDoList, title, description, priority, dueDate, remindDate);
+        ToDo newToDo = user.addToDoItem(toDoList, title, description, priority, dueDate, remindDate);
         userRepository.save(user); // user 엔티티 저장
-        return toDoList;
+        return toDoListRepository.save(toDoList); // toDoList 엔티티 저장
     }
 
     public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority, Boolean isCompleted) {
@@ -94,7 +97,15 @@ public class UserService {
     }
 
     public void deleteToDoItem(ToDoList toDoList, Long todoId) {
-        userRepository.save(toDoList.getUser()).deleteToDoItem(toDoList, todoId);
+        Optional<ToDo> existingToDoItem = toDoList.getToDoItems().stream()
+                .filter(item -> item.getId().equals(todoId))
+                .findFirst();
+
+        existingToDoItem.ifPresent(item -> {
+            item.setList(null);
+            toDoList.getToDoItems().remove(item);
+            toDoRepository.delete(item); // ToDo 객체를 데이터베이스에서 삭제
+        });
     }
 
     public Optional<ToDoList> getToDoListById(Long toDoListId) {

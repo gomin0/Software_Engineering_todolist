@@ -5,44 +5,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ListModal from "./ListModal";
 
-const SideBar = ({ curUser, clickList, selected }) => {
-  const [curLists, setLists] = useState([]);
+const SideBar = ({
+  curUser,
+  curLists,
+  clickList,
+  selectedList,
+  setSelect,
+  setLists,
+}) => {
+  const [updatedLists, setUpdatedLists] = useState(curLists);
 
   useEffect(() => {
-    getAllLists();
-  }, []);
+    setLists(updatedLists);
+  }, [updatedLists]);
 
-  /** request lists info with current user info */
-  //const sortedLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
-  async function getAllLists() {
-    //sortedLists?.map((list) => getListInfo(list));
-    try {
-      const response = await fetch(
-        `http://localhost:8080/users/${curUser.userID}/todolist`
-      );
-      const json = await response.json();
-      console.log(json);
-      setLists(json);
-    } catch (error) {
-      console.error(error);
-    }
+  const [current, setCurrent] = useState(selectedList);
+
+  function findElementByID(array, id) {
+    return array.find((element) => element.id == id);
   }
-
-  const getListInfo = async (list) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/${curUser.userEmail}/${list.listID}`
-      );
-      const json = await response.json();
-      console.log(json);
-      // TODO: print out each list info
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // TODO: replace lists with getListInfo()
-  // const curLists = lists?.sort((a, b) => a.createdDate - b.createdDate);
 
   const [showModal, setShowModal] = useState(false);
   const [mode, setMode] = useState("");
@@ -53,24 +34,34 @@ const SideBar = ({ curUser, clickList, selected }) => {
   };
 
   const handleModifyButton = (event) => {
-    const id = event.target.parentNode.parentNode.parentNode.id;
-    console.log(curLists[id]);
-    setMode("Modify");
-    setShowModal(true);
+    const id = event.target.id;
+    const list = findElementByID(curLists, id);
+
+    if (list) {
+      setCurrent(list);
+      setMode("Modify");
+      setShowModal(true);
+    }
   };
 
   const handleDeleteButton = async (event) => {
-    const id = event.target.parentNode.parentNode.parentNode.id;
-    if (window.confirm("Delete list ${curLists[id]}.listTitle}?")) {
-      try {
-        const response = await fetch(`http://localhost:8080/todolist/${id}`, {
-          method: "DELETE",
-          header: { "Content-Type": "application/json" },
-          body: JSON.stringify(id),
-        });
-      } catch (error) {
-        console.error(error);
+    const id = event.target.id;
+    const list = curLists.find((e) => e.id == id);
+
+    if (list) {
+      if (window.confirm(`Delete list "${list.title}"?`)) {
+        try {
+          await fetch(`http://localhost:8080/users/todolist/${id}`, {
+            method: "DELETE",
+            header: { "Content-Type": "application/json" },
+          });
+        } catch (error) {
+          console.error(error);
+        }
       }
+      setUpdatedLists((oldLists) => {
+        return oldLists.filter((element) => element.id != list.id);
+      });
     }
   };
 
@@ -89,20 +80,23 @@ const SideBar = ({ curUser, clickList, selected }) => {
           curUser={curUser}
           mode={mode}
           setShowModal={setShowModal}
-          setLists={setLists}
-          list={selected}
+          setLists={setUpdatedLists}
+          // setLists={setLists}
+          setSelect={setSelect}
+          list={current}
         />
       )}
 
       <div className="list-container">
         <ul className="lists">
-          {curLists?.map((list) => (
+          {updatedLists?.map((list) => (
             <List
               key={list.id}
-              clickList={clickList}
-              onClickModify={handleModifyButton}
               list={list}
-              selected={selected}
+              clickList={clickList}
+              selectedList={selectedList}
+              onClickModify={handleModifyButton}
+              onClickDelete={handleDeleteButton}
             />
           ))}
           {showModal && (
@@ -110,8 +104,10 @@ const SideBar = ({ curUser, clickList, selected }) => {
               curUser={curUser}
               mode={mode}
               setShowModal={setShowModal}
-              setLists={setLists}
-              list={selected}
+              setLists={setUpdatedLists}
+              // setLists={setLists}
+              setSelect={setSelect}
+              list={current}
             />
           )}
         </ul>

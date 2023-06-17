@@ -47,3 +47,7 @@
   height: 15px;
   border-radius: 50%;
 }
+
+.opt-btn {
+  z-index: 1;
+}

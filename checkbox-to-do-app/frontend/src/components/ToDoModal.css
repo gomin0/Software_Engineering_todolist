@@ -1,20 +1,3 @@
-.todo-modal {
-  position: fixed;
-  top: 28%;
-  left: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  transform: translate(-50%, -50%);
-  width: 550px;
-  height: 187px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-
-}
-
 .overlay {
   position: fixed;
   top: 0;
@@ -22,6 +5,75 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.todo-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.todo-modal-top {
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  padding: 25px;
+  gap: 5px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.todo-list-title {
+  color: #515151;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: inherit;
+  gap: 12px;
+  padding: 25px;
+}
+
+.form-inputs > input[name="title"] {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  font-weight: bold;
+}
+
+.form-inputs > input[name="content"] {
+  font-size: 14px;
+}
+
+.reminder-div {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  gap: 10px;
+  padding: 0 0 25px 25px;
+}
+
+.submit-contatiner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 11px;
+  padding: 15px;
+  background-color: #fafafa;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .button-add {
@@ -46,42 +98,15 @@
   color: #202020;
 }
 
-.button-add:hover{
+.button-add:hover {
   background-color: #c04439;
 }
 
-.button-cancel:hover{
+.button-cancel:hover {
   background-color: #dddddd;
 }
 
-.submit-contatiner{
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 11px;
-}
-
-.form-inputs{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-family: inherit;
-  gap: 12px;
-}
-
-.form-inputs > input[name='title'] {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 21px;
-  font-weight: bold;
-
-}
-
-.form-inputs > input[name='content'] {
-  font-size: 14px;
-}
-
-.button-add:disabled{
+.button-add:disabled {
   background-color: #f1b7b2;
   color: #ffffff;
   cursor: not-allowed !important;

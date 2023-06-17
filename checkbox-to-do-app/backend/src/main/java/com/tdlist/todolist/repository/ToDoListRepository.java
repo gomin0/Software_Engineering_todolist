@@ -10,6 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ToDoListRepository extends JpaRepository<ToDo, Long> {
+public interface ToDoListRepository extends JpaRepository<ToDoList, Long> {
       ToDoList save(ToDoList toDoList);
 }
