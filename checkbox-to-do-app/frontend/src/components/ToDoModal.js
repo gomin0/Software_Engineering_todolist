@@ -28,7 +28,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
   const [data, setData] = useState({
     userID: userID,
     id: editMode ? todo.id : "",
-    title: editMode ? todo.name : "",
+    title: editMode ? todo.title : "",
     description: editMode ? todo.description : "",
     createdDate: editMode ? todo.createdDate : new Date(),
     remindDate: editMode ? todo.remindDate : date,
@@ -169,7 +169,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
               maxLength={20}
               placeholder="Task Name"
               name="title"
-              value={title}
+              value={data.title}
               onChange={handleTitleChange}
               autoFocus
             />
@@ -178,7 +178,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
               maxLength={20}
               placeholder="Description"
               name="description"
-              value={content}
+              value={data.description}
               onChange={handleContentChange}
             />
           </div>
@@ -187,12 +187,12 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Remind me on"
-                value={date}
+                value={data.remindDate}
                 onChange={(newDate) => handleDate(newDate)}
               />
               <TimePicker
                 label="Remind me at"
-                value={time}
+                value={data.remindTime}
                 onChange={(newTime) => handleTime(newTime)}
               />
             </LocalizationProvider>
