@@ -86,7 +86,7 @@ const Inbox = ({ curList }) => {
     const element = curToDos?.find((e) => e.id == id);
     if (element) {
       setCurrent(element);
-      console.log(id);
+      console.log(element);
       setMode("Modify");
       setShowModal(true);
     }

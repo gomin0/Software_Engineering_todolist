@@ -42,14 +42,13 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     priority: editMode ? todo.priority : null,
   });
 
-  useEffect(() => {
-    setData((prevData) => ({
-      ...prevData,
-      userID: userID,
-      title: title,
-      priority: priority,
-    }));
-  }, [userID, title, content, isChecked, priority]);
+  // useEffect(() => {
+  //   setData((prevData) => ({
+  //     ...prevData,
+  //     userID: userID,
+  //     priority: priority,
+  //   }));
+  // }, [userID]);
 
   const handleTitleChange = (e) => {
     const { name, value } = e.target;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./ToDo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +6,10 @@ import { faInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
 const ToDo = ({ todo, onClickModify, onClickDelete }) => {
   const isCompleted = todo.isCompleted;
   const [isChecked, setIsChecked] = useState(isCompleted);
+
+  useEffect(() => {
+    priorityConvert(todo.priority);
+  }, [todo]);
 
   const updateChecked = async () => {
     setIsChecked((prev) => !prev);
