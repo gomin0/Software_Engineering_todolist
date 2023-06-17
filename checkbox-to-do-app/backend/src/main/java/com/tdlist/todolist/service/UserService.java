@@ -4,11 +4,11 @@ import com.tdlist.todolist.domain.ToDo;
 import com.tdlist.todolist.domain.User;
 import com.tdlist.todolist.domain.ToDoList;
 import com.tdlist.todolist.repository.ToDoListRepository;
+import com.tdlist.todolist.repository.ToDoRepository;
 import com.tdlist.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +19,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ToDoListRepository toDoListRepository;
+    private final ToDoRepository toDoRepository;
 
-    public UserService(UserRepository userRepository, ToDoListRepository toDoListRepository) {
+    public UserService(UserRepository userRepository, ToDoListRepository toDoListRepository, ToDoRepository toDoRepository) {
         this.userRepository = userRepository;
         this.toDoListRepository = toDoListRepository;
+        this.toDoRepository = toDoRepository;
     }
 
     public User registerUser(User user) {
@@ -95,7 +97,15 @@ public class UserService {
     }
 
     public void deleteToDoItem(ToDoList toDoList, Long todoId) {
-        userRepository.save(toDoList.getUser()).deleteToDoItem(toDoList, todoId);
+        Optional<ToDo> existingToDoItem = toDoList.getToDoItems().stream()
+                .filter(item -> item.getId().equals(todoId))
+                .findFirst();
+
+        existingToDoItem.ifPresent(item -> {
+            item.setList(null);
+            toDoList.getToDoItems().remove(item);
+            toDoRepository.delete(item); // ToDo 객체를 데이터베이스에서 삭제
+        });
     }
 
     public Optional<ToDoList> getToDoListById(Long toDoListId) {

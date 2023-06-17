@@ -42,6 +42,11 @@ public class ToDoList {
         toDo.setList(this);
     }
 
+    public void removeToDoItem(ToDo toDo) {
+        todos.remove(toDo);
+        toDo.setList(null);
+    }
+
     @JsonIgnore
     public List<ToDo> getToDoItems() {
         return todos;
