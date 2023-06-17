@@ -11,7 +11,7 @@ const Inbox = ({ curList }) => {
   const todos = curList.todos;
   const [curToDos, setCurToDos] = useState(todos);
 
-  const [current, setCurrent] = useState(curToDos[0]);
+  const [current, setCurrent] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("");
@@ -21,6 +21,12 @@ const Inbox = ({ curList }) => {
     // handleNormalMenu();
     getToDosInfo();
   }, []);
+
+  useEffect(() => {
+    if (curToDos.length > 0) {
+      setCurrent(curToDos[curToDos.length - 1]);
+    }
+  }, [curToDos]);
 
   const getToDosInfo = async () => {
     try {
@@ -72,7 +78,6 @@ const Inbox = ({ curList }) => {
   const handleCreateButton = () => {
     setMode("Create");
     setShowModal(true);
-    // 8080번 포트로 POST 호출
   };
 
   const handleModifyButton = (event) => {
@@ -82,13 +87,12 @@ const Inbox = ({ curList }) => {
     console.log(id);
     setMode("Modify");
     setShowModal(true);
-    // 8080번 포트로 PUT 호출
   };
 
   const deleteToDo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/todolist/${curList.listID}/todos/${current.id}`,
+        `http://localhost:8080/users/todolist/${curList.listID}/todos/${current.id}`,
         {
           method: "DELETE",
           header: { "Content-Type": "application/json" },
@@ -109,7 +113,10 @@ const Inbox = ({ curList }) => {
     const id = event.target.id;
     const element = curToDos?.find((e) => e.id == id);
     setCurrent(element);
-    deleteToDo(curList, id);
+
+    if (window.confirm(`Delete To-Do "${element.title}"?`)) {
+      deleteToDo(curList, id);
+    }
   };
 
   return (
@@ -147,6 +154,7 @@ const Inbox = ({ curList }) => {
               curList={curList}
               setShowModal={setShowModal}
               setCurToDos={setCurToDos}
+              setCurrent={setCurrent}
               todo={current}
               mode={mode}
             />
@@ -164,6 +172,7 @@ const Inbox = ({ curList }) => {
           curList={curList}
           setShowModal={setShowModal}
           setCurToDos={setCurToDos}
+          setCurrent={setCurrent}
           todo={current}
           mode={mode}
         />
