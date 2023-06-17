@@ -83,26 +83,27 @@ const Inbox = ({ curList }) => {
   const handleModifyButton = (event) => {
     const id = event.target.id;
     const element = curToDos?.find((e) => e.id == id);
-    setCurrent(element);
-    console.log(id);
-    setMode("Modify");
-    setShowModal(true);
+    if (element) {
+      setCurrent(element);
+      console.log(id);
+      setMode("Modify");
+      setShowModal(true);
+    }
   };
 
-  const deleteToDo = async () => {
+  const deleteToDo = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/users/todolist/${curList.listID}/todos/${current.id}`,
+        `http://localhost:8080/users/todolist/${curList.id}/todos/${current.id}`,
         {
           method: "DELETE",
           header: { "Content-Type": "application/json" },
         }
       );
-      // NOTE: may have no return:
-      // consider deleting below
-      const json = await response.json();
+
       setCurToDos((oldToDos) => {
         //TODO: find and delete
+        return oldToDos.filter((element) => element.id != id);
       });
     } catch (error) {
       console.error(error);
@@ -112,10 +113,11 @@ const Inbox = ({ curList }) => {
   const handleDeleteButton = (event) => {
     const id = event.target.id;
     const element = curToDos?.find((e) => e.id == id);
-    setCurrent(element);
-
-    if (window.confirm(`Delete To-Do "${element.title}"?`)) {
-      deleteToDo(curList, id);
+    if (element) {
+      setCurrent(element);
+      if (window.confirm(`Delete To-Do "${element.title}"?`)) {
+        deleteToDo(id);
+      }
     }
   };
 

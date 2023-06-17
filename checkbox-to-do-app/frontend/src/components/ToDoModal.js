@@ -122,7 +122,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/users/todolist/${curList.id}/${todo.id}`,
+        `http://localhost:8080/users/todolist/${curList.id}/todos/${todo.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json; charset=utf-8" },
