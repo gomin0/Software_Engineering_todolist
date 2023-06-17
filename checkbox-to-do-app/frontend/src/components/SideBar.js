@@ -16,8 +16,6 @@ const SideBar = ({
   const [updatedLists, setUpdatedLists] = useState(curLists);
 
   useEffect(() => {
-    console.log(updatedLists);
-    // setLists((oldLists) => [...oldLists, ...updatedLists]);
     setLists(updatedLists);
   }, [updatedLists]);
 

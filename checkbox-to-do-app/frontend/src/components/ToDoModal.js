@@ -113,8 +113,9 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
         ...data,
         id: todoID,
       }));
+      console.log(data);
 
-      setCurToDos((oldToDos) => [...(oldToDos || []), data]);
+      setCurToDos((oldToDos) => [...(oldToDos || []), { ...data, id: todoID }]);
     } catch (error) {
       console.error(error);
     }

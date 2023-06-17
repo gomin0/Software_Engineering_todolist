@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ToDo = ({ todo, onClickModify, onClickDelete }) => {
-  console.log(todo.id);
   const isCompleted = todo.isCompleted;
   const [isChecked, setIsChecked] = useState(isCompleted);
 
