@@ -1,67 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
-
-const curUser = {
-  userID: "",
-  profile_image: "https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif",
-  userName: "Kim",
-  lists: [
-    {
-      id: 0,
-      name: "1st",
-      userID: 1000,
-      createdDate: new Date(),
-      todos: [
-        {
-          id: 0,
-          title: "react",
-          description: "no. 1",
-          isCompleted: false,
-        },
-        {
-          id: 1,
-          title: "node",
-          description: "no. 2",
-          isCompleted: true,
-        },
-        {
-          id: 2,
-          title: "mySQL",
-          isCompleted: false,
-        },
-      ],
-    },
-    {
-      id: 1,
-      name: "2nd",
-      todos: [
-        {
-          id: 0,
-          title: "two list",
-          description: "no. 3",
-          isCompleted: false,
-        },
-        {
-          id: 1,
-          title: "spring",
-          description: "no. 4",
-          isCompleted: true,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "3rd",
-    },
-  ],
-};
 
 const App = () => {
   const [token, setToken] = useState(false);
@@ -160,27 +100,11 @@ const App = () => {
 
   console.log(userInfo.userID);
 
-  const userID = localStorage.getItem("userID");
-  // const user = {
-  //   userID: userID,
-  //   username: username,
-  //   profileImageURL: profileImageURL,
-  //   access_token: access_token,
-  // };
-  // console.log(user);
-  // curUser.userID = user.userID;
-
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={<Home curUser={userInfo} lists={curUser.lists} />}
-        />
-        <Route
-          path="/"
-          element={<Home curUser={userInfo} lists={curUser.lists} />}
-        />
+        <Route path="/" element={<Home curUser={userInfo} />} />
+        <Route path="/" element={<Home curUser={userInfo} />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
