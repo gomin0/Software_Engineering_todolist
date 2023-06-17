@@ -27,6 +27,9 @@
   align-items: center;
 }
 
+.todo-priority {
+  color: rgb(219, 76, 63);
+}
 .todo-checkbox {
   width: 15px;
   height: 15px;

@@ -26,6 +26,18 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
     }
   };
 
+  const priorityConvert = (p) => {
+    if (p == 1) {
+      return "!!!";
+    } else if (p == 2) {
+      return "!!";
+    } else if (p == 1) {
+      return "!";
+    } else {
+      return "";
+    }
+  };
+
   return (
     <button id={todo.id} className="todo" style={style}>
       <div id={todo.id} className="todo-top">
@@ -37,6 +49,9 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
             onChange={updateChecked}
             className="todo-checkbox"
           />
+          <p id={todo.id} className="todo-priority">
+            <b>{priorityConvert(todo.priority)} </b>
+          </p>
           <p id={todo.id} className="todo-text">
             {todo.title}
           </p>

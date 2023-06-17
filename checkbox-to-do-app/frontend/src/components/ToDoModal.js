@@ -5,6 +5,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
   const [userID, setUserID] = useState(null);
@@ -22,8 +26,9 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
+  const [priority, setPriority] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
   const [data, setData] = useState({
     userID: userID,
@@ -41,8 +46,10 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     setData((prevData) => ({
       ...prevData,
       userID: userID,
+      title: title,
+      priority: priority,
     }));
-  }, [userID]);
+  }, [userID, title, content, isChecked, priority]);
 
   const handleTitleChange = (e) => {
     const { name, value } = e.target;
@@ -64,6 +71,15 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
   const activateReminder = () => {
     setIsChecked((prev) => !prev);
+  };
+
+  const handlePriority = (event) => {
+    setPriority(event.target.value);
+    setData((data) => ({
+      ...data,
+      priority: event.target.value,
+    }));
+    console.log(data);
   };
 
   const handleDate = (newDate) => {
@@ -106,8 +122,6 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
       const list = json.list.todos;
       const todoID = list[list.length - 1].id;
-      // const todo = list.find((e) => e.title == data.title);
-      console.log(todoID);
 
       setData((data) => ({
         ...data,
@@ -115,7 +129,10 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
       }));
       console.log(data);
 
-      setCurToDos((oldToDos) => [...(oldToDos || []), { ...data, id: todoID }]);
+      setCurToDos((oldToDos) => [
+        ...(oldToDos || []),
+        { ...data, id: todoID, priority: priority },
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -192,11 +209,28 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
           <div className="reminder-div">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel>Priority</InputLabel>
+                <Select
+                  defaultValue={""}
+                  value={priority}
+                  onChange={handlePriority}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="1">High</MenuItem>
+                  <MenuItem value="2">Medium</MenuItem>
+                  <MenuItem value="3">Low</MenuItem>
+                </Select>
+              </FormControl>
+
               <DatePicker
                 label="Remind me on"
                 value={data.remindDate}
                 onChange={(newDate) => handleDate(newDate)}
               />
+
               <TimePicker
                 label="Remind me at"
                 value={data.remindTime}
