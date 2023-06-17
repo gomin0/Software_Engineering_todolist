@@ -39,7 +39,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     remindDate: editMode ? todo.remindDate : date,
     remindTime: editMode ? todo.remindTime : time,
     isCompleted: editMode ? todo.isCompleted : false,
-    priority: editMode ? todo.priority : null,
+    priority: editMode ? todo.priority : "",
   });
 
   // useEffect(() => {
@@ -212,7 +212,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
                 <InputLabel>Priority</InputLabel>
                 <Select
                   defaultValue={""}
-                  value={priority}
+                  value={data.priority}
                   onChange={handlePriority}
                 >
                   <MenuItem value="">
