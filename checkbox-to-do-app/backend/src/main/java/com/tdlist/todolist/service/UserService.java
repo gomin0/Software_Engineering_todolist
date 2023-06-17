@@ -63,17 +63,17 @@ public class UserService {
         return user.getToDoLists();
     }
 
-    public ToDoList updateToDoList(ToDoList toDoList) {
-        User user = toDoList.getUser();
-        if (user != null) {
-            user.updateToDoList(toDoList);
-            userRepository.save(user);
+    public ToDoList updateToDoList(Long toDoListId, ToDoList updatedToDoList) {
+        Optional<ToDoList> existingToDoList = toDoListRepository.findById(toDoListId);
+        if (existingToDoList.isPresent()) {
+            ToDoList toDoList = existingToDoList.get();
+            toDoList.setTitle(updatedToDoList.getTitle());
+            // 기타 업데이트할 필드들에 대한 처리
+
+            return toDoListRepository.save(toDoList);
+        } else {
+            return null;
         }
-
-        // toDoList 엔티티를 업데이트하는 코드
-        ToDoList updatedToDoList = toDoListRepository.save(toDoList);
-
-        return updatedToDoList;
     }
 
     public void deleteToDoList(ToDoList toDoList) {

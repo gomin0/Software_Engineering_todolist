@@ -94,10 +94,8 @@ public class UserController {
 
     @PutMapping("/todolist/{toDoListId}")
     public ResponseEntity<ToDoList> updateToDoList(@PathVariable Long toDoListId, @RequestBody ToDoList toDoList) {
-        Optional<ToDoList> existingToDoList = userService.getToDoListById(toDoListId);
-        if (existingToDoList.isPresent()) {
-            toDoList.setId(toDoListId);
-            ToDoList updatedToDoList = userService.updateToDoList(toDoList);
+        ToDoList updatedToDoList = userService.updateToDoList(toDoListId, toDoList);
+        if (updatedToDoList != null) {
             return ResponseEntity.ok(updatedToDoList);
         } else {
             return ResponseEntity.notFound().build();
@@ -129,7 +127,7 @@ public class UserController {
             toDoList.addToDoItem(toDo);
 
             // ToDoList 저장
-            userService.updateToDoList(toDoList);
+            userService.createToDoItem(toDoList, toDo.getTitle(), toDo.getDescription(), toDo.getPriority(), toDo.getDueDate(), toDo.getRemindDate());
 
             // 생성된 ToDo를 반환
             return ResponseEntity.status(HttpStatus.CREATED).body(toDo);
