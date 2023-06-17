@@ -16,8 +16,8 @@ const Inbox = ({ curList }) => {
   const [mode, setMode] = useState("");
 
   useEffect(() => {
-    handleCompleteMenu();
-    handleNormalMenu();
+    // handleCompleteMenu();
+    // handleNormalMenu();
     getToDosInfo();
   }, []);
 
@@ -44,11 +44,12 @@ const Inbox = ({ curList }) => {
     const completedToDos = todos.filter((todo) => {
       return todo.isCompleted;
     });
-    setCurToDos(completedToDos);
+    // setCurToDos(completedToDos);
   };
 
   const handleNormalMenu = () => {
-    setCurToDos(curToDos);
+    console.log(curToDos);
+    // setCurToDos(curToDos);
     setOpen(false);
   };
 

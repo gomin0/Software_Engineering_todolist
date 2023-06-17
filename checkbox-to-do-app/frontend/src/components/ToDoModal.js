@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./ToDoModal.css";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -7,19 +7,26 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
-  const curUser = curList.user;
+  const [userID, setUserID] = useState(null);
+
+  useEffect(() => {
+    if (curList.userID) {
+      setUserID(curList.userID);
+    } else {
+      setUserID(curList.user.userID);
+    }
+  }, [curList]);
+
   const editMode = mode === "Modify" ? true : false;
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
-  // TODO: useState(sync with list)
   const [isChecked, setIsChecked] = useState(false);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
 
   const [data, setData] = useState({
-    userID: curUser.userID,
+    userID: userID,
     todo_id: editMode ? todo.id : "",
     title: editMode ? todo.name : "",
     description: editMode ? todo.description : "",
@@ -29,6 +36,13 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     isCompleted: editMode ? todo.isCompleted : false,
     priority: editMode ? todo.priority : null,
   });
+
+  useEffect(() => {
+    setData((prevData) => ({
+      ...prevData,
+      userID: userID,
+    }));
+  }, [userID]);
 
   const handleTitleChange = (e) => {
     const { name, value } = e.target;
@@ -91,7 +105,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
       setData((data) => ({
         ...data,
-        todo_id: json.todo_id,
+        id: json.todo_id,
       }));
 
       setCurToDos((oldToDos) => [...oldToDos, data]);
