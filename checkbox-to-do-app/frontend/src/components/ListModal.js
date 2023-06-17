@@ -56,7 +56,6 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
     setShowModal(false);
   };
 
-  // TODO: updateList -> update = PUT
   const updateList = async (event) => {
     event.preventDefault();
     const listID = data.id;

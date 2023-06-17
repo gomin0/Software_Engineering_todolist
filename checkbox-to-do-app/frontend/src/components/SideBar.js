@@ -51,19 +51,17 @@ const SideBar = ({
     if (list) {
       if (window.confirm(`Delete list "${list.title}"?`)) {
         try {
-          const response = await fetch(
-            `http://localhost:8080/users/todolist/${id}`,
-            {
-              method: "DELETE",
-              header: { "Content-Type": "application/json" },
-            }
-          );
-          const json = await response.json();
-          //TODO: find and delete
+          await fetch(`http://localhost:8080/users/todolist/${id}`, {
+            method: "DELETE",
+            header: { "Content-Type": "application/json" },
+          });
         } catch (error) {
           console.error(error);
         }
       }
+      setUpdatedLists((oldLists) => {
+        return oldLists.filter((element) => element.id != list.id);
+      });
     }
   };
 

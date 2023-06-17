@@ -40,7 +40,11 @@ const Main = ({ curUser }) => {
   const clickAndSelectList = (event) => {
     const id = parseInt(event.target.id);
     const selectedList = curLists.find((list) => list.id === id);
-    console.log(curLists);
+
+    if (selectedList === undefined) {
+      console.log(event.target);
+      return;
+    }
     if (!selectedList) {
       setLoaded(false);
       return;
@@ -49,7 +53,6 @@ const Main = ({ curUser }) => {
     setSelect(selectedList);
   };
 
-  //{curLists.length > 0 && <Inbox curList={selection} />}
   console.log(selection);
   return (
     <div className="main" style={style}>
