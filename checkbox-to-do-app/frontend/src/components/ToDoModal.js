@@ -27,8 +27,8 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
   const [content, setContent] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [priority, setPriority] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
 
   const [data, setData] = useState({
     userID: userID,
@@ -36,7 +36,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     title: editMode ? todo.title : "",
     description: editMode ? todo.description : "",
     createdDate: editMode ? todo.createdDate : new Date(),
-    remindDate: editMode ? todo.remindDate : date,
+    dueDate: editMode ? todo.dueDate : date,
     remindTime: editMode ? todo.remindTime : time,
     isCompleted: editMode ? todo.isCompleted : false,
     priority: editMode ? todo.priority : 4,
@@ -92,9 +92,9 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
     setData((data) => ({
       ...data,
-      // remindDate: `${newDate.$M}, ${newDate.$D}, ${newDate.$y}`,
-      // remindDate: `${year}-${month}-${day}`,
-      remindDate: date,
+      // dueDate: `${newDate.$M}, ${newDate.$D}, ${newDate.$y}`,
+      // dueDate: `${year}-${month}-${day}`,
+      dueDate: date,
     }));
   };
 
@@ -114,6 +114,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
     e.preventDefault();
 
+    console.log(data.dueDate);
     try {
       const response = await fetch(
         `http://localhost:8080/users/todolist/${curList.id}/todos`,
@@ -149,6 +150,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
     e.preventDefault();
 
+    console.log(data.dueDate);
     try {
       const response = await fetch(
         `http://localhost:8080/users/todolist/${curList.id}/todos/${todo.id}`,
@@ -186,7 +188,6 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
   const handleSubmit = (e) => {
     mode == "Modify" ? updateToDo(e) : postToDo(e);
     setShowModal(false);
-    console.log(data);
   };
 
   return (
@@ -236,8 +237,8 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
               </FormControl>
 
               <DatePicker
-                label="Remind me on"
-                value={data.remindDate}
+                label="Until"
+                value={data.dueDate}
                 onChange={(newDate) => handleDate(newDate)}
               />
 

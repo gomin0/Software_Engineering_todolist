@@ -42,6 +42,26 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
     }
   };
 
+  const [formattedDate, setFormattedDate] = useState("");
+
+  const dueDateConvert = () => {
+    if (todo.dueDate === null) {
+      setFormattedDate("");
+    } else {
+      const date = new Date(todo.dueDate);
+      const newDate = date.toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "short",
+        year: "2-digit",
+      });
+      setFormattedDate(newDate);
+    }
+  };
+
+  useEffect(() => {
+    dueDateConvert();
+  }, [todo]);
+
   return (
     <button id={todo.id} className="todo" style={style}>
       <div id={todo.id} className="todo-top">
@@ -77,7 +97,7 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
         <p>{todo.description}</p>
       </div>
 
-      <div className="todo-due-date">{todo.dueDate}</div>
+      <div className="todo-due-date">{formattedDate}</div>
     </button>
   );
 };
