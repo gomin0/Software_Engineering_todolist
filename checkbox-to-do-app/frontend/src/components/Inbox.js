@@ -11,6 +11,7 @@ const Inbox = ({ curList }) => {
   const todos = curList.todos;
   const [curToDos, setCurToDos] = useState(todos);
 
+  const [current, setCurrent] = useState(curToDos[0]);
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("");
@@ -75,31 +76,39 @@ const Inbox = ({ curList }) => {
   };
 
   const handleModifyButton = (event) => {
-    const id = event.target.parentNode.parentNode.parentNode.id;
-    console.log(curList[id]);
+    const id = event.target.id;
+    const element = curToDos?.find((e) => e.id == id);
+    setCurrent(element);
+    console.log(id);
     setMode("Modify");
     setShowModal(true);
     // 8080번 포트로 PUT 호출
   };
 
-  const deleteToDo = async (curList, id) => {
+  const deleteToDo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/todolist/${curList.listID}/todos/${id}`,
+        `http://localhost:8080/todolist/${curList.listID}/todos/${current.id}`,
         {
           method: "DELETE",
           header: { "Content-Type": "application/json" },
         }
       );
+      // NOTE: may have no return:
+      // consider deleting below
+      const json = await response.json();
+      setCurToDos((oldToDos) => {
+        //TODO: find and delete
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleDeleteButton = (event) => {
-    const id = event.target.parentElement.parentElement.parentElement.id;
-    console.log(id);
-    // 8080번 포트로 DELETE 호출
+    const id = event.target.id;
+    const element = curToDos?.find((e) => e.id == id);
+    setCurrent(element);
     deleteToDo(curList, id);
   };
 
@@ -138,7 +147,7 @@ const Inbox = ({ curList }) => {
               curList={curList}
               setShowModal={setShowModal}
               setCurToDos={setCurToDos}
-              todo={curToDos} // 이거 이대로 둬도되나
+              todo={current}
               mode={mode}
             />
           )}
@@ -155,7 +164,7 @@ const Inbox = ({ curList }) => {
           curList={curList}
           setShowModal={setShowModal}
           setCurToDos={setCurToDos}
-          todo={curToDos} // 이거 이대로 둬도되나
+          todo={current}
           mode={mode}
         />
       )}

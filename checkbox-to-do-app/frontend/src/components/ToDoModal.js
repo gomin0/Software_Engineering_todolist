@@ -27,7 +27,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
   const [data, setData] = useState({
     userID: userID,
-    todo_id: editMode ? todo.id : "",
+    id: editMode ? todo.id : "",
     title: editMode ? todo.name : "",
     description: editMode ? todo.description : "",
     createdDate: editMode ? todo.createdDate : new Date(),
@@ -105,17 +105,48 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
       setData((data) => ({
         ...data,
-        id: json.todo_id,
+        id: json.id,
       }));
 
-      setCurToDos((oldToDos) => [...oldToDos, data]);
+      setCurToDos((oldToDos) => [...(oldToDos || []), data]);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const updateToDo = (e) => {
+  const updateToDo = async (e) => {
+    const todoTitle = data.title;
+    const todoDescription = data.description;
+
     e.preventDefault();
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/todolist/${curList.id}/${todo.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(data),
+        }
+      );
+      const json = await response.json();
+      console.log(json);
+
+      setData((data) => ({
+        ...data,
+        id: json.id,
+      }));
+
+      setCurToDos((oldToDos) => {
+        return oldToDos.map((item) =>
+          item.id == json.id
+            ? { ...item, title: todoTitle, description: todoDescription }
+            : item
+        );
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmit = (e) => {
