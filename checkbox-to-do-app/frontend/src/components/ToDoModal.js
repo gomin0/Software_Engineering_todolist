@@ -39,7 +39,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     remindDate: editMode ? todo.remindDate : date,
     remindTime: editMode ? todo.remindTime : time,
     isCompleted: editMode ? todo.isCompleted : false,
-    priority: editMode ? todo.priority : "",
+    priority: editMode ? todo.priority : 4,
   });
 
   // useEffect(() => {
@@ -83,12 +83,18 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
   const handleDate = (newDate) => {
     setDate(newDate);
+
+    const year = newDate.$y;
+    const month = newDate.$M + 1;
+    const day = newDate.$D;
+
+    const date = newDate.$d;
+
     setData((data) => ({
       ...data,
       // remindDate: `${newDate.$M}, ${newDate.$D}, ${newDate.$y}`,
-      remindDate: `${newDate.get("year")}, ${newDate.get(
-        "month"
-      )}, ${newDate.get("date")}`,
+      // remindDate: `${year}-${month}-${day}`,
+      remindDate: date,
     }));
   };
 
@@ -163,7 +169,12 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
       setCurToDos((oldToDos) => {
         return oldToDos.map((item) =>
           item.id == json.id
-            ? { ...item, title: todoTitle, description: todoDescription }
+            ? {
+                ...item,
+                title: todoTitle,
+                description: todoDescription,
+                priority: json.priority,
+              }
             : item
         );
       });
@@ -215,7 +226,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
                   value={data.priority}
                   onChange={handlePriority}
                 >
-                  <MenuItem value="">
+                  <MenuItem value="4">
                     <em>None</em>
                   </MenuItem>
                   <MenuItem value="1">High</MenuItem>
@@ -245,7 +256,7 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
             >
               Cancel
             </button>
-            <button className="button-add" type="submit" disabled={!title}>
+            <button className="button-add" type="submit">
               {mode} task
             </button>
           </div>

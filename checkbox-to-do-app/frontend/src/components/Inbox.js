@@ -30,7 +30,7 @@ const Inbox = ({ curList }) => {
     if (curToDos.length > 0) {
       setCurrent(curToDos[curToDos.length - 1]);
     }
-    setViewToDos(curToDos);
+    // setViewToDos(curToDos);
   }, [curList, curToDos]);
 
   const getToDosInfo = async () => {
@@ -47,6 +47,11 @@ const Inbox = ({ curList }) => {
   };
 
   useEffect(() => {
+    const latest = curToDos[curToDos.length - 1];
+    console.log(latest);
+
+    // setViewToDos((prev) => [...(prev || []), latest]);
+
     if (viewOption == "NormalView") {
       normalView();
     } else if (viewOption == "CompletedOnlyView") {
@@ -54,13 +59,14 @@ const Inbox = ({ curList }) => {
     } else if (viewOption == "PriorityView") {
       priorityView();
     }
-  }, [viewOption]);
+  }, [curToDos, viewOption]);
 
   const handleViewOptions = (event) => {
     setViewOption(event.target.value);
   };
 
   const normalView = () => {
+    console.log("Normal Mode");
     const normalToDos = curToDos.sort((a, b) => a.id - b.id);
     console.log(normalToDos);
 
@@ -68,19 +74,22 @@ const Inbox = ({ curList }) => {
   };
 
   const completedOnlyView = () => {
-    if (!todos) {
+    console.log("Comp Mode");
+    if (!curToDos) {
       return;
     }
 
     const completedToDos = curToDos.filter((todo) => {
       return todo.isCompleted;
     });
+    console.log(completedToDos);
 
     setViewToDos(completedToDos);
   };
 
   const priorityView = () => {
-    if (!todos) {
+    console.log("Priority Mode");
+    if (!curToDos) {
       return;
     }
 
