@@ -70,7 +70,10 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
     setDate(newDate);
     setData((data) => ({
       ...data,
-      remindDate: `${date.$M}, ${date.$D}, ${date.$y}`,
+      // remindDate: `${newDate.$M}, ${newDate.$D}, ${newDate.$y}`,
+      remindDate: `${newDate.get("year")}, ${newDate.get(
+        "month"
+      )}, ${newDate.get("date")}`,
     }));
   };
 
@@ -103,9 +106,14 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
       const json = await response.json();
       console.log(json);
 
+      const list = json.list.todos;
+      const todoID = list[list.length - 1].id;
+      // const todo = list.find((e) => e.title == data.title);
+      console.log(todo);
+
       setData((data) => ({
         ...data,
-        id: json.id,
+        id: todoID,
       }));
 
       setCurToDos((oldToDos) => [...(oldToDos || []), data]);
