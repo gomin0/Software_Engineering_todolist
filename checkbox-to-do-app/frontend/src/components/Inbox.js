@@ -20,13 +20,13 @@ const Inbox = ({ curList }) => {
     // handleCompleteMenu();
     // handleNormalMenu();
     getToDosInfo();
-  }, []);
+  }, [curList]);
 
   useEffect(() => {
     if (curToDos.length > 0) {
       setCurrent(curToDos[curToDos.length - 1]);
     }
-  }, [curToDos]);
+  }, [curList, curToDos]);
 
   const getToDosInfo = async () => {
     try {
@@ -34,7 +34,8 @@ const Inbox = ({ curList }) => {
         `http://localhost:8080/users/todolist/${curList.id}/todos`
       );
       const json = await response.json();
-      console.log(json);
+
+      setCurToDos(json);
     } catch (error) {
       console.error(error);
     }

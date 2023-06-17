@@ -40,28 +40,32 @@ const SideBar = ({
     const id = event.target.id;
     console.log(event.target);
     const list = findElementByID(curLists, id);
-    setCurrent(list);
-    setMode("Modify");
-    setShowModal(true);
+    if (list) {
+      setCurrent(list);
+      setMode("Modify");
+      setShowModal(true);
+    }
   };
 
   const handleDeleteButton = async (event) => {
     const id = event.target.id;
     const list = curLists.find((e) => e.id == id);
 
-    if (window.confirm(`Delete list "${list.title}"?`)) {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/users/todolist/${id}`,
-          {
-            method: "DELETE",
-            header: { "Content-Type": "application/json" },
-          }
-        );
-        const json = await response.json();
-        //TODO: find and delete
-      } catch (error) {
-        console.error(error);
+    if (list) {
+      if (window.confirm(`Delete list "${list.title}"?`)) {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/users/todolist/${id}`,
+            {
+              method: "DELETE",
+              header: { "Content-Type": "application/json" },
+            }
+          );
+          const json = await response.json();
+          //TODO: find and delete
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   };
