@@ -86,7 +86,7 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
       // ...oldLists, [new]
       setLists((oldLists) => {
         return oldLists.map((item) =>
-          item.list_id == listID ? { ...item, title: listTitle } : item
+          item.id == listID ? { ...item, title: listTitle } : item
         );
       });
 

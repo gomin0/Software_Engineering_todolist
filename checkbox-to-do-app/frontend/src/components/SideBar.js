@@ -38,8 +38,8 @@ const SideBar = ({
 
   const handleModifyButton = (event) => {
     const id = event.target.id;
-    console.log(event.target);
     const list = findElementByID(curLists, id);
+
     if (list) {
       setCurrent(list);
       setMode("Modify");
@@ -94,7 +94,7 @@ const SideBar = ({
 
       <div className="list-container">
         <ul className="lists">
-          {curLists?.map((list) => (
+          {updatedLists?.map((list) => (
             <List
               key={list.id}
               list={list}
