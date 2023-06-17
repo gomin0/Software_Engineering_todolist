@@ -124,9 +124,6 @@ public class UserController {
             toDo.setList(toDoList); // ToDo와 ToDoList의 관계 설정
 
             // ToDoList에 ToDo 추가
-            toDoList.addToDoItem(toDo);
-
-            // ToDoList 저장
             userService.createToDoItem(toDoList, toDo.getTitle(), toDo.getDescription(), toDo.getPriority(), toDo.getDueDate(), toDo.getRemindDate());
 
             // 생성된 ToDo를 반환

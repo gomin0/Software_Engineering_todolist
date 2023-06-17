@@ -85,9 +85,9 @@ public class UserService {
 
     public ToDoList createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate) {
         User user = toDoList.getUser();
-        user.addToDoItem(toDoList, title, description, priority, dueDate, remindDate);
+        ToDo newToDo = user.addToDoItem(toDoList, title, description, priority, dueDate, remindDate);
         userRepository.save(user); // user 엔티티 저장
-        return toDoList;
+        return toDoListRepository.save(toDoList); // toDoList 엔티티 저장
     }
 
     public void updateToDoItem(ToDoList toDoList, Long todoId, String title, String description, Long priority, Boolean isCompleted) {
