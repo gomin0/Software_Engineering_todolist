@@ -93,7 +93,6 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
 
     e.preventDefault();
 
-    console.log(data);
     try {
       const response = await fetch(
         `http://localhost:8080/users/todolist/${curList.id}/todos`,
@@ -104,12 +103,11 @@ const ToDoModal = ({ curList, setShowModal, setCurToDos, todo, mode }) => {
         }
       );
       const json = await response.json();
-      console.log(json);
 
       const list = json.list.todos;
       const todoID = list[list.length - 1].id;
       // const todo = list.find((e) => e.title == data.title);
-      console.log(todo);
+      console.log(todoID);
 
       setData((data) => ({
         ...data,
