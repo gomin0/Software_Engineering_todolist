@@ -35,7 +35,7 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
       return "!!!";
     } else if (p == 2) {
       return "!!";
-    } else if (p == 1) {
+    } else if (p == 3) {
       return "!";
     } else {
       return "";
@@ -53,10 +53,13 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
             onChange={updateChecked}
             className="todo-checkbox"
           />
-          <p id={todo.id} className="todo-priority">
+          <p
+            id={todo.id}
+            className={`todo-priority ${isChecked ? "checked" : ""}`}
+          >
             <b>{priorityConvert(todo.priority)} </b>
           </p>
-          <p id={todo.id} className="todo-text">
+          <p id={todo.id} className={`todo-text ${isChecked ? "checked" : ""}`}>
             {todo.title}
           </p>
         </div>
@@ -70,7 +73,7 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
         </div>
       </div>
 
-      <div className="todo-description">
+      <div className={`todo-description ${isChecked ? "checked" : ""}`}>
         <p>{todo.description}</p>
       </div>
 

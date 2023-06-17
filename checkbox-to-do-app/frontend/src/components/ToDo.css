@@ -30,6 +30,21 @@
 .todo-priority {
   color: rgb(219, 76, 63);
 }
+
+.todo-priority.checked {
+  color: grey;
+  text-decoration: line-through;
+}
+
+.todo-text {
+  color: black;
+}
+
+.todo-text.checked {
+  color: grey;
+  text-decoration: line-through;
+}
+
 .todo-checkbox {
   width: 15px;
   height: 15px;
@@ -40,6 +55,11 @@
   width: 100%;
   text-align: left;
   padding-left: 35px;
+}
+
+.todo-description.checked {
+  color: grey;
+  text-decoration: line-through;
 }
 
 .todo-due-date {
