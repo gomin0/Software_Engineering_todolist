@@ -5,20 +5,24 @@ import ToDo from "./ToDo";
 import ToDoModal from "./ToDoModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Inbox = ({ curList }) => {
   // const curTodos = curList.todos?.map((todo) => ({ ...todo, key: todo.id }));
   const todos = curList.todos;
   const [curToDos, setCurToDos] = useState(todos);
+  const [viewToDos, setViewToDos] = useState(null);
 
   const [current, setCurrent] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("");
+  const [viewOption, setViewOption] = useState("NormalView");
 
   useEffect(() => {
-    // handleCompleteMenu();
-    // handleNormalMenu();
     getToDosInfo();
   }, [curList]);
 
@@ -26,6 +30,7 @@ const Inbox = ({ curList }) => {
     if (curToDos.length > 0) {
       setCurrent(curToDos[curToDos.length - 1]);
     }
+    setViewToDos(curToDos);
   }, [curList, curToDos]);
 
   const getToDosInfo = async () => {
@@ -41,39 +46,53 @@ const Inbox = ({ curList }) => {
     }
   };
 
-  const handleOpen = () => {
-    setOpen(!open);
+  useEffect(() => {
+    if (viewOption == "NormalView") {
+      normalView();
+    } else if (viewOption == "CompletedOnlyView") {
+      completedOnlyView();
+    } else if (viewOption == "PriorityView") {
+      priorityView();
+    }
+  }, [viewOption]);
+
+  const handleViewOptions = (event) => {
+    setViewOption(event.target.value);
   };
 
-  const filterCompleted = () => {
+  const normalView = () => {
+    const normalToDos = curToDos.sort((a, b) => a.id - b.id);
+    console.log(normalToDos);
+
+    setViewToDos(normalToDos);
+  };
+
+  const completedOnlyView = () => {
     if (!todos) {
       return;
     }
-    const completedToDos = todos.filter((todo) => {
+
+    const completedToDos = curToDos.filter((todo) => {
       return todo.isCompleted;
     });
-    // setCurToDos(completedToDos);
+
+    setViewToDos(completedToDos);
   };
 
-  const handleNormalMenu = () => {
-    console.log(curToDos);
-    // setCurToDos(curToDos);
-    setOpen(false);
-  };
+  const priorityView = () => {
+    if (!todos) {
+      return;
+    }
 
-  const handleCompleteMenu = () => {
-    // show completed todos only
-    filterCompleted();
-    setOpen(false);
-  };
-  const handlePriorityMenu = () => {
-    alert("Prio");
-    setOpen(false);
-  };
+    const prioritySortedToDos = [...curToDos].sort((a, b) => {
+      if (a.priority === null) return 1;
+      if (b.priority === null) return -1;
 
-  const handleDueDateMenu = () => {
-    alert("Due");
-    setOpen(false);
+      return a.priority - b.priority;
+    });
+    console.log(prioritySortedToDos);
+
+    setViewToDos(prioritySortedToDos);
   };
 
   const handleCreateButton = () => {
@@ -94,7 +113,7 @@ const Inbox = ({ curList }) => {
 
   const deleteToDo = async (id) => {
     try {
-      const response = await fetch(
+      await fetch(
         `http://localhost:8080/users/todolist/${curList.id}/todos/${current.id}`,
         {
           method: "DELETE",
@@ -126,25 +145,24 @@ const Inbox = ({ curList }) => {
     <div className="inbox">
       <div className="list-name" style={style}>
         <h2>{curList.title}</h2>
-        <Dropdown
-          open={open}
-          trigger={
-            <button className="opt-btn" onClick={handleOpen}>
-              Option
-            </button>
-          }
-          menu={[
-            <button onClick={handleNormalMenu}>Normal View</button>,
-            <button onClick={handleCompleteMenu}>Completed Tasks</button>,
-            <button onClick={handlePriorityMenu}>Menu 1</button>,
-            <button onClick={handleDueDateMenu}>Menu 2</button>,
-          ]}
-        />
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <Select
+            value={viewOption}
+            onChange={handleViewOptions}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+            style={{ height: 30 }}
+          >
+            <MenuItem value={"NormalView"}>Normal</MenuItem>
+            <MenuItem value={"CompletedOnlyView"}>Completed</MenuItem>
+            <MenuItem value={"PriorityView"}>Priority</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       <div className="toDo-container">
         <ul className="todos">
-          {curToDos?.map((todo) => (
+          {viewToDos?.map((todo) => (
             <ToDo
               onClickModify={handleModifyButton}
               onClickDelete={handleDeleteButton}
