@@ -80,6 +80,7 @@ public class UserService {
         User user = toDoList.getUser();
         user.getToDoLists().remove(toDoList);
         userRepository.save(user);
+        toDoListRepository.delete(toDoList);
     }
 
     public ToDoList createToDoItem(ToDoList toDoList, String title, String description, Long priority, Date dueDate, Date remindDate) {

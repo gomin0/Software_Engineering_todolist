@@ -73,6 +73,7 @@ public class UserController {
     public ResponseEntity<ToDoList> createToDoList(@PathVariable Long userId, @RequestBody ToDoList toDoList) {
         Optional<User> user = userService.getUserById(userId);
         if (user.isPresent()) {
+            toDoList.setUser(user.get());
             ToDoList createdToDoList = userService.createToDoList(user.get(), toDoList.getTitle());
             return ResponseEntity.status(HttpStatus.CREATED).body(createdToDoList);
         } else {
@@ -128,7 +129,7 @@ public class UserController {
             toDoList.addToDoItem(toDo);
 
             // ToDoList 저장
-            ToDoList savedToDoList = userService.updateToDoList(toDoList);
+            userService.updateToDoList(toDoList);
 
             // 생성된 ToDo를 반환
             return ResponseEntity.status(HttpStatus.CREATED).body(toDo);
