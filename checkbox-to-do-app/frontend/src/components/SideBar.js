@@ -59,7 +59,7 @@ const SideBar = ({
           }
         );
         const json = await response.json();
-        console.log(json);
+        //TODO: find and delete
       } catch (error) {
         console.error(error);
       }

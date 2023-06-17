@@ -79,6 +79,8 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
       }));
       console.log(data);
 
+      // NOTE: make sure it works...
+      // ...oldLists, [new]
       setLists((oldLists) => {
         return oldLists.map((item) =>
           item.list_id == listID ? { ...item, title: listTitle } : item
