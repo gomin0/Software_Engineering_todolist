@@ -26,23 +26,26 @@ const ToDo = ({ todo, onClickModify, onClickDelete }) => {
   };
 
   return (
-    <button className="todo" style={style}>
-      <div className="todo-top">
-        <div className="todo-checkbox-container">
+    <button id={todo.id} className="todo" style={style}>
+      <div id={todo.id} className="todo-top">
+        <div id={todo.id} className="todo-checkbox-container">
           <input
+            id={todo.id}
             type="checkbox"
             checked={isChecked}
             onChange={updateChecked}
             className="todo-checkbox"
           />
-          <p className="todo-text">{todo.title}</p>
+          <p id={todo.id} className="todo-text">
+            {todo.title}
+          </p>
         </div>
-        <div className="todo-btns">
-          <div className="todo-edit" onClick={onClickModify}>
-            <FontAwesomeIcon icon={faInfo} />
+        <div id={todo.id} className="todo-btns">
+          <div id={todo.id} className="todo-edit" onClick={onClickModify}>
+            <FontAwesomeIcon id={todo.id} icon={faInfo} />
           </div>
-          <div className="todo-delete" onClick={onClickDelete}>
-            <FontAwesomeIcon icon={faTrash} />
+          <div id={todo.id} className="todo-delete" onClick={onClickDelete}>
+            <FontAwesomeIcon id={todo.id} icon={faTrash} />
           </div>
         </div>
       </div>
