@@ -5,6 +5,7 @@ import Inbox from "./Inbox";
 
 const Main = ({ curUser }) => {
   const [curLists, setLists] = useState([]);
+  const [listLoaded, setListLoaded] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [selection, setSelect] = useState(null);
 
@@ -14,7 +15,8 @@ const Main = ({ curUser }) => {
 
   useEffect(() => {
     if (curLists.length > 0) {
-      setSelect(curLists[0]);
+      console.log(curLists);
+      setSelect(curLists[curLists.length - 1]);
       setLoaded(true);
     }
   }, [curLists]);
@@ -28,6 +30,7 @@ const Main = ({ curUser }) => {
       const json = await response.json();
       setLists(json);
       setSelect(curLists[0]);
+      setListLoaded(true);
       console.log(selection);
     } catch (error) {
       console.error(error);
@@ -50,14 +53,18 @@ const Main = ({ curUser }) => {
   console.log(selection);
   return (
     <div className="main" style={style}>
-      <SideBar
-        curUser={curUser}
-        curLists={curLists}
-        clickList={(event) => clickAndSelectList(event)}
-        selectedList={selection}
-        setSelect={setSelect}
-        setLists={setLists}
-      />
+      {listLoaded ? (
+        <SideBar
+          curUser={curUser}
+          curLists={curLists}
+          clickList={(event) => clickAndSelectList(event)}
+          selectedList={selection}
+          setSelect={setSelect}
+          setLists={setLists}
+        />
+      ) : (
+        <div></div>
+      )}
       {loaded ? (
         <>
           <Inbox curList={selection} />

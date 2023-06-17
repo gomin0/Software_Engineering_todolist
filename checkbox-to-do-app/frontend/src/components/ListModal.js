@@ -45,7 +45,10 @@ const ListModal = ({ curUser, mode, setShowModal, setLists, list }) => {
       }));
 
       setLists((oldLists) => [...oldLists, { ...data, id: json.id }]);
-      // setLists({ ...data, id: json.id });
+      // setLists(() => ({
+      //   ...data,
+      //   id: json.id,
+      // }));
       console.log(data);
     } catch (error) {
       console.error(error);
